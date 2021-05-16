@@ -13,7 +13,6 @@ class ProductSchema extends Schema {
       table.float('price')
       table.float('patungan_price')
       table.string('unit',50)
-      table.integer('quantity')
       table.integer('quota_patungan')
       table.datetime('deleted_at')
       table.timestamps()

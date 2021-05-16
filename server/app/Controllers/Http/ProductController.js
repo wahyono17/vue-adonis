@@ -1,13 +1,12 @@
 'use strict'
 
-const Project = use('App/Models/Product');
+const Product = use('App/Models/Product');
 const { validate } = use('Validator');
 
 
 class ProductController {
-    async create({auth, request}){
-        return "ok";
-        const { name, description, price, patungan_price, unit, quantity, quota_patungan } = request.all();
+    async create({auth, request, response}){
+        const { name, description, price, patungan_price, unit, quota_patungan } = request.all();
 
         const rules = {
             name: 'required',
@@ -15,8 +14,7 @@ class ProductController {
             price: 'required|number',
             patungan_price: 'required|number',
             unit: 'required',
-            quantity: 'required|number',
-            quantity_patungan: 'required|number',
+            quota_patungan: 'required|number',
         }
 
         const validation = await validate(request.all(), rules)
@@ -26,9 +24,30 @@ class ProductController {
         }
 
         const user = await auth.getUser();
-        return user.id;
+
+        //jika sudah ada dengan nama yang sama maka reject
+        let result = await Product.query().where('name',name).where('store_id',user.id).where('deleted_at',null).first();
+        if(result != null && result.name == name){
+            return response.status(406).json({message:"sudah ada product tersebut"});
+        }
+
+
+
+        //tulis ke database
+        Product.create({
+            store_id:user.id,
+            name,
+            description,
+            price,
+            patungan_price,
+            unit,
+            quota_patungan,
+        });
+
+        return "done";
 
     }
+
 }
 
 module.exports = ProductController
