@@ -13,10 +13,15 @@
 
 // const Factory = use('Factory')
 
-/**
-  Factory.blueprint('App/Models/User', (faker) => {
-    return {
-      username: faker.username()
-    }
-  })
-*/
+
+// Factory.blueprint('App/Models/Product', (faker) => {
+//   return {
+//     name: faker.username(),
+//     description: faker.sentence(),
+//     price:10000,
+//     patungan_price:7000,
+//     unit:"kilogram",
+//     quota_patugan:20,
+//   }
+// })
+

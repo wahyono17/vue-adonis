@@ -20,7 +20,7 @@ class ProductController {
         const validation = await validate(request.all(), rules)
 
         if (validation.fails()) {
-        return response.status(406).json({message:validation.messages()[0]});
+            return response.status(406).json({message:validation.messages()[0]});
         }
 
         const user = await auth.getUser();
@@ -30,8 +30,6 @@ class ProductController {
         if(result != null && result.name == name){
             return response.status(406).json({message:"sudah ada product tersebut"});
         }
-
-
 
         //tulis ke database
         Product.create({
