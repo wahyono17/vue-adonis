@@ -11,17 +11,18 @@
 |
 */
 
-// const Factory = use('Factory')
+const Factory = use('Factory')
 
 
-// Factory.blueprint('App/Models/Product', (faker) => {
-//   return {
-//     name: faker.username(),
-//     description: faker.sentence(),
-//     price:10000,
-//     patungan_price:7000,
-//     unit:"kilogram",
-//     quota_patugan:20,
-//   }
-// })
+Factory.blueprint('App/Models/Product', (faker) => {
+  return {
+    store_id:1,
+    name: faker.username(),
+    description: faker.sentence(),
+    price:10000,
+    patungan_price:7000,
+    unit:"kilogram",
+    quota_patungan:20,
+  }
+})
 
