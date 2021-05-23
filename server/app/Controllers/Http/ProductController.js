@@ -1,6 +1,7 @@
 'use strict'
 
 const Product = use('App/Models/Product');
+const Database = use('Database');
 const { validate } = use('Validator');
 
 
@@ -42,8 +43,21 @@ class ProductController {
             quota_patungan,
         });
 
-        return "done";
+        return response.status(201).json({message:"pembuatan product berhasil"});
+    }
 
+    async myProductIndex({auth,request,response}){
+        const user = await auth.getUser();
+
+        // const result = await Product.query().where('store_id',user.id).where('deleted_at',null)
+        //         .forPage(1,10);
+
+        const result = await Database.select([ 'products.*' ,Database.raw('concat("http://localhost:3333/images/aple.jpg") as images') ])
+                .from('products')
+                .where('store_id',user.id).where('deleted_at',null)
+                .forPage(1,10);
+
+        return result;
     }
 
 }

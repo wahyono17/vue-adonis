@@ -20,9 +20,9 @@
           @input="setLoginPassword"
         ></v-text-field>
 
-        <v-alert type="error" :value="loginError">
+        <!-- <v-alert type="error" :value="loginError">
           {{loginError}}
-        </v-alert>
+        </v-alert> -->
 
         <v-btn color="green" dark @click="login">
           <v-icon class="mr-2">fingerprint</v-icon>

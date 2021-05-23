@@ -1,15 +1,15 @@
 <template>
-  <v-container>
-    <v-layout>
-      <v-flex xs4>
-        <Projects></Projects>
-      </v-flex>
-
-      <v-flex xs8 class="pl-4" v-if="currentProject">
-        <Tasks></Tasks>
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <div>
+      <v-card
+        class="v-flex md-4 sm-12"
+        v-for="n in 3"
+        :key="n"
+        outlined
+        tile
+      >
+        Flex item {{ n }} Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officiis voluptas error est repellendus eveniet? Quam sint repudiandae nam. Necessitatibus ea odio impedit incidunt architecto mollitia laborum, maxime rem ipsum reiciendis!
+      </v-card>
+  </div>
 </template>
 
 <script>
