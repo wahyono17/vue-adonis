@@ -1,40 +1,61 @@
 <template>
   <div>
-      <v-card
-        class="v-flex md-4 sm-12"
-        v-for="n in 3"
-        :key="n"
-        outlined
-        tile
+    <v-container
+      v-for="align in alignments"
+      :key="align"
+      class="grey lighten-5 mb-6"
+    >
+      <v-row
+        :align="align"
+        no-gutters
+        style="height: 150px;"
       >
-        Flex item {{ n }} Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officiis voluptas error est repellendus eveniet? Quam sint repudiandae nam. Necessitatibus ea odio impedit incidunt architecto mollitia laborum, maxime rem ipsum reiciendis!
-      </v-card>
+        <v-col
+          v-for="n in 3"
+          :key="n"
+        >
+          <v-card
+            class="pa-2"
+            outlined
+            tile
+          >
+            One of three columns
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <v-container class="grey lighten-5">
+      <v-row
+        no-gutters
+        style="height: 150px;"
+      >
+        <v-col
+          v-for="align in alignments"
+          :key="align"
+          :align-self="align"
+        >
+          <v-card
+            class="pa-2"
+            outlined
+            tile
+          >
+            One of three columns
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
-import Projects from '@/components/Projects.vue';
-import Tasks from '@/components/Tasks.vue';
-import router from '../router';
-
-export default {
-  components: {
-    Projects,
-    Tasks,
-  },
-  mounted() {
-    if (!this.isLoggedIn) {
-      return router.push('/login');
-    }
-  },
-  computed: {
-    ...mapState('projects', [
-      'currentProject',
-    ]),
-    ...mapGetters('authentication', [
-      'isLoggedIn',
-    ]),
-  },
-};
+  export default {
+    data: () => ({
+      alignments: [
+        'start',
+        'center',
+        'end',
+      ],
+    }),
+  }
 </script>
