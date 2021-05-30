@@ -1,4 +1,4 @@
-# admin-ui
+# client-ui
 
 ## Project setup
 ```
