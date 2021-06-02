@@ -1,35 +1,25 @@
 <template>
   <v-app>
-    <Toolbar v-if="!mobileView"/>
-    <ToolbarMobile v-if="mobileView"/>
+    <Toolbar/>
+    <div id="app">
+      <div id="nav">
+        <router-link to="/">Home</router-link> |
+        <router-link to="/about">About</router-link> |
+        <router-link to="/test">Test</router-link> |
+        <router-link to="/test2">Test2</router-link>
+      </div>
+      <router-view/>
+    </div>
   </v-app>
 </template>
 
 <script>
 import Toolbar from '@/components/Toolbar.vue';
-import ToolbarMobile from '@/components/ToolbarMobile.vue';
 
 export default {
-  data: () => {
-    return {
-      mobileView: false,
-      // showNav: false
-    };
-  },
-  components: {
+   components: {
     Toolbar,
-    ToolbarMobile
   },
-  methods: {
-    handleView() {
-      this.mobileView = window.innerWidth <= 990;
-    }
-  },
-  created() {
-    this.handleView();
-    window.addEventListener('resize', this.handleView);
-  }
-
 }
 </script>
 
