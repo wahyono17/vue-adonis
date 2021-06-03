@@ -2,12 +2,14 @@
   <v-app>
     <Toolbar v-if="!mobileView"/>
     <ToolbarMobile v-if="mobileView"/>
+    <Test/>
   </v-app>
 </template>
 
 <script>
 import Toolbar from '@/components/Toolbar.vue';
 import ToolbarMobile from '@/components/ToolbarMobile.vue';
+import Test from '@/components/Test.vue';
 
 export default {
   data: () => {
@@ -18,7 +20,8 @@ export default {
   },
   components: {
     Toolbar,
-    ToolbarMobile
+    ToolbarMobile,
+    Test
   },
   methods: {
     handleView() {

@@ -1,35 +1,33 @@
 <template>
-  <v-card class="overflow-hidden">
+  <v-card class="overflow-hidden"
+    color="grey lighten-4"
+    flat
+    tile
+  >
     <v-app-bar
-      absolute
-      color="white"
-      elevate-on-scroll
-      scroll-target="#scrolling-techniques-7"
+      color="green"
+      dark fixed
     >
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
       <v-toolbar-title>Title</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
       <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
+        <v-icon>account_box</v-icon>
       </v-btn>
 
       <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
+        <v-icon>fingerprint</v-icon>
       </v-btn>
 
       <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
+        <v-icon>exit_to_app</v-icon>
       </v-btn>
     </v-app-bar>
     <v-sheet
-      id="scrolling-techniques-7"
-      class="overflow-y-auto"
-      max-height="600"
     >
-      <v-container style="height: 1500px;">
+      <v-container style="height: 50px;">
       </v-container>
     </v-sheet>
   </v-card>
