@@ -14,17 +14,17 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-items>
-        <v-btn flat color="green">
+        <v-btn flat color="green" v-if="!isLoggedIn" to="/register">
           <v-icon class="mr-2">account_box</v-icon>
           Register
         </v-btn>
 
-        <v-btn flat color="green">
+        <v-btn flat color="green" v-if="!isLoggedIn" to="/login">
           <v-icon class="mr-2">fingerprint</v-icon>
           Login
         </v-btn>
 
-        <v-btn flat color="green">
+        <v-btn flat color="green" v-if="isLoggedIn" @click="logout">
           <v-icon class="mr-2">exit_to_app</v-icon>
           Logout
         </v-btn>
@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   data () {
       return {
@@ -49,10 +51,14 @@ export default {
       }
   },
   computed:{
-
+    ...mapGetters('authentication', [
+      'isLoggedIn',
+    ]),
   },
   methods:{
-
+    ...mapActions('authentication', [
+      'logout',
+    ]),
   }
 
 }

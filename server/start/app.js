@@ -16,7 +16,9 @@ const providers = [
   '@adonisjs/bodyparser/providers/BodyParserProvider',
   '@adonisjs/cors/providers/CorsProvider',
   '@adonisjs/lucid/providers/LucidProvider',
-  '@adonisjs/validator/providers/ValidatorProvider'
+  '@adonisjs/validator/providers/ValidatorProvider',
+  // 'adonis-antl/providers/AntlProvider'
+
 ]
 
 /*
@@ -44,7 +46,10 @@ const aceProviders = [
 |   { Route: 'Adonis/Src/Route' }
 |
 */
-const aliases = {}
+const aliases = {
+  // Antl: 'Adonis/Addons/Antl', //untuk format money bukan default
+  // Formats: 'Adonis/Addons/AntlFormats' //untuk format money bukan default
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +59,8 @@ const aliases = {}
 | Here you store ace commands for your package
 |
 */
-const commands = []
+const commands = [
+  // 'Adonis/Commands/Antl:Setup' //untuk format money bukan default
+]
 
 module.exports = { providers, aceProviders, aliases, commands }

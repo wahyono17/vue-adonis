@@ -60,6 +60,25 @@ class ProductController {
         return result;
     }
 
+    //ini adalah all product
+    async index(){
+        // let formatter = new Intl.NumberFormat();
+        // return formatter.format(2500); /* $2,500.00 */
+
+        const result = await Database
+                .select([ 'products.*'
+                ,Database.raw('concat("http://localhost:3333/images/aple.jpg") as images')
+                ,Database.raw('concat("toko abadi") as store_name')
+                ,Database.raw('concat("lamat rumah di perumahan naga asri") as store_address')
+
+                ])
+                .from('products')
+                .where('deleted_at',null)
+                .forPage(1,10);
+
+        return result;
+    }
+
 }
 
 module.exports = ProductController

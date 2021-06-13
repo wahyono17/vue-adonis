@@ -2,26 +2,28 @@
   <v-app>
     <Toolbar v-if="!mobileView"/>
     <ToolbarMobile v-if="mobileView"/>
-    <Test/>
+
+    <div id="app">
+      <router-view/>
+    </div>
+
   </v-app>
 </template>
 
 <script>
 import Toolbar from '@/components/Toolbar.vue';
 import ToolbarMobile from '@/components/ToolbarMobile.vue';
-import Test from '@/components/Test.vue';
 
 export default {
   data: () => {
     return {
       mobileView: false,
-      // showNav: false
     };
   },
   components: {
     Toolbar,
     ToolbarMobile,
-    Test
+    // Test
   },
   methods: {
     handleView() {
@@ -38,6 +40,7 @@ export default {
 
 <style lang="scss">
 #app {
+  margin-top: 5px;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
