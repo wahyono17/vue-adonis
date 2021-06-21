@@ -1,7 +1,12 @@
 <template>
 <v-container>
     <v-row>
-        <v-col v-for="n in 15" :key=n
+        <v-btn
+            @click="fetchproducts"
+        >test</v-btn>
+    </v-row>
+    <v-row>
+        <v-col v-for="product in products" :key="product.id"
             cols="6"
             sm="4"
             md="3"
@@ -50,3 +55,31 @@
     </v-row>
 </v-container>
 </template>
+
+<script>
+import {mapState,mapActions } from 'vuex';
+export default {
+    // mounted() {
+    //     this.fetchProducts();
+    // },
+    // created(){ //pertama kali component ini di click maka akan panggil untuk menerima list todo
+    //   this.$store.dispatch('fetchProducts').product // kalau dispatch di store harus di terima di actions
+    // },
+    computed: {
+        ...mapState('products',[
+            'products',
+        ]),
+    },
+    methods:{
+        // fetchProducts(){
+
+        // }
+        // testProduct(){
+
+        // },
+        ...mapActions('products'[
+            'fetchproducts'
+        ]),
+    }
+}
+</script>

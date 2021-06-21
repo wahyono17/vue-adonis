@@ -44,7 +44,7 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
-
+//
 export default {
   computed: {
     ...mapState('authentication', [

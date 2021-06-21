@@ -12,7 +12,7 @@ export default {
     loginPassword: null,
     loginError: null,
     token: null,
-  },
+  },//
   actions: {
     logout({ commit }) {
       commit('setToken', null);
@@ -44,6 +44,7 @@ export default {
         password: state.loginPassword,
       })
         .then(({ data }) => {
+          console.log("login");
           commit('setToken', data.token);
           router.push('/');
         })
