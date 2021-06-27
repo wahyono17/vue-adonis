@@ -6,6 +6,7 @@ import Login from '../views/Login.vue'
 import Products from '../views/Products.vue'
 import Test from '../views/Test.vue'
 import Test2 from '../views/Test2.vue'
+import Projects from '../views/Projects.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes = [
   //   name: 'home',
   //   component: Home
   // },
+  {
+    path: '/projects',
+    name: 'projects',
+    component: Projects,
+  },
   {
     path: '/register',
     name: 'register',
