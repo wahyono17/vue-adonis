@@ -61,9 +61,8 @@ class ProductController {
     }
 
     //ini adalah all product
-    async index(){
-        // let formatter = new Intl.NumberFormat();
-        // return formatter.format(2500); /* $2,500.00 */
+    async index({request}){
+        const {page} = request.all();
 
         const result = await Database
                 .select([ 'products.*'
@@ -74,7 +73,7 @@ class ProductController {
                 ])
                 .from('products')
                 .where('deleted_at',null)
-                .forPage(1,10);
+                .forPage(page,10);
 
         return result;
     }
