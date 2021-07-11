@@ -1,23 +1,44 @@
 <template>
-  <v-container class="grey lighten-5">
-    <v-row
-      v-for="n in 2"
-      :key="n"
-      :class="n === 1 ? 'mb-6' : ''"
-      no-gutters
+  <div class="text-center">
+    <v-dialog
+      v-model="dialog"      
+      width="500"
     >
-      <v-col
-        v-for="k in n + 1"
-        :key="k"
-      >
-        <v-card
-          class="pa-2"
-          outlined
-          tile
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="red lighten-2"
+          dark
+          v-bind="attrs"
+          v-on="on"
         >
-          {{ k }} of {{ n + 1 }}
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+          Click Me
+        </v-btn>
+      </template>
+      <Test
+        @closeCard="closeCard"
+      />
+    </v-dialog>
+  </div>
 </template>
+
+<script>
+
+import Test from '../components/Test.vue'
+
+  export default {
+    components:{
+      Test
+    },
+    data () {
+      return {
+        dialog: false,
+      }
+    },
+    methods:{
+      closeCard(){
+        this.dialog=false;
+      }
+    }
+    
+  }
+</script>

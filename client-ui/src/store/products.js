@@ -6,26 +6,44 @@ export default {
     state:{
         products: [],
         singleProduct:{},
+        page:1,
+        // dialog: false,
     },
     //lemparan dari method dan create
     actions: {
         fetchProducts({ commit }) {
-            console.log("sampai sini");
             return HTTP().get('/product')
                 .then(({ data }) => {
-                console.log(data);
                 commit('setProducts', data);
+                commit('resetPage');
             });
         },
+        nextPage({commit,state}){
+            const newPage = state.page+1;
+            return HTTP().get('/product'+'?page='+newPage)
+                .then( ({data})=>{
+                    commit('setProducts',data);
+                    commit('nextPage');     
+                });
+        },
+        // closeCard(state){
+        //     state.dialog=false;
+        // }
     },
     getters: {
-        products(state){
-            return state.products
-        }
+        // dialog(state){
+        //     return state.dialog;
+        // }
     },
     mutations: {
         setProducts(state, products) {
             state.products = products;
+        },
+        nextPage(state){
+            state.page++
+        },
+        resetPage(state){
+            state.page=1;
         },
     }
 

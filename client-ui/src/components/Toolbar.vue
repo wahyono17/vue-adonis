@@ -14,17 +14,17 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-items>
-        <v-btn flat color="green" v-if="!isLoggedIn" to="/register">
+        <v-btn color="green" v-if="!isLoggedIn" to="/register">
           <v-icon class="mr-2">account_box</v-icon>
           Register
         </v-btn>
 
-        <v-btn flat color="green" v-if="!isLoggedIn" to="/login">
+        <v-btn color="green" v-if="!isLoggedIn" to="/login">
           <v-icon class="mr-2">fingerprint</v-icon>
           Login
         </v-btn>
 
-        <v-btn flat color="green" v-if="isLoggedIn" @click="logout">
+        <v-btn color="green" v-if="isLoggedIn" @click="logout">
           <v-icon class="mr-2">exit_to_app</v-icon>
           Logout
         </v-btn>

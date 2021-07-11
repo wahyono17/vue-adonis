@@ -73,7 +73,7 @@ class ProductController {
                 ])
                 .from('products')
                 .where('deleted_at',null)
-                .forPage(page,10);
+                .forPage(page,12);
 
         return result;
     }

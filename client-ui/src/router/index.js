@@ -4,6 +4,7 @@ import Register from '../views/Register.vue'
 import Login from '../views/Login.vue'
 // import Home from '../views/Home.vue'
 import Products from '../views/Products.vue'
+import Yono from '../views/Yono.vue'
 import Test from '../views/Test.vue'
 import Test2 from '../views/Test2.vue'
 import Projects from '../views/Projects.vue'
@@ -35,6 +36,11 @@ const routes = [
     path: '/',
     name: 'products',
     component: Products,
+  },
+  {
+    path: '/yono',
+    name: 'yono',
+    component: Yono,
   },
   {
     path: '/test',
