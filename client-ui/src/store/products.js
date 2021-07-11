@@ -7,7 +7,6 @@ export default {
         products: [],
         singleProduct:{},
         page:1,
-        // dialog: false,
     },
     //lemparan dari method dan create
     actions: {
@@ -26,9 +25,7 @@ export default {
                     commit('nextPage');     
                 });
         },
-        // closeCard(state){
-        //     state.dialog=false;
-        // }
+        
     },
     getters: {
         // dialog(state){

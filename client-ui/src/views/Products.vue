@@ -40,11 +40,12 @@
                 <v-divider class="mx-4"></v-divider>
 
                 <v-card-actions>
-                <v-btn
-                    color="deep-purple lighten-2"
-                >
-                    Beli
-                </v-btn>
+                <router-link :to="{ name: 'order', params: { id: product.id }}">
+                    <v-btn 
+                        color="primary"
+                    >Beli</v-btn>
+                </router-link>
+                
                 
 
                 </v-card-actions>
@@ -64,7 +65,6 @@
 <script>
 
 import { mapActions, mapState, mapMutations, mapGetters } from 'vuex';
-// import Basket from '../components/Basket.vue';
 
 export default {
     components:{
@@ -72,7 +72,7 @@ export default {
     },
     // data () {
     //   return {
-    //     dialog: false,
+    //     
     //   }
     // },
     mounted() {
@@ -89,12 +89,12 @@ export default {
         
     },//
     methods:{ //methods
-        // closeCard(){
-        //     this.dialog=false;
-        // },
         formatPrice(value) {
             let val = (value/1).toFixed(0).replace('.', ',')
             return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        },
+        selectProduct(product){
+            console.log(product)
         },
         ...mapMutations('products',[
             
@@ -102,7 +102,7 @@ export default {
         ...mapActions('products',[
             'fetchProducts',
             'nextPage',
-            // 'closeCard'
+            
         ]),
     },
 };
