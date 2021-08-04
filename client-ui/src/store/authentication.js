@@ -4,6 +4,7 @@ import HTTP from '../http';
 export default {
   namespaced: true,
   state: {
+    registerUser: null,
     registerEmail: null,
     registerPassword: null,
     reRegisterPassword: null,
@@ -12,15 +13,22 @@ export default {
     loginPassword: null,
     loginError: null,
     token: null,
+    count_basket:0,
   },//
   actions: {
+    addCountBasket({commit},value){
+      commit('addCountBasket',value);
+    },
     logout({ commit }) {
       commit('setToken', null);
+      commit('setLoginEmail',null);
+      commit('setLoginPassword',null);
       router.push('/login');
     },
     register({ commit, state }) {
       commit('setRegisterError', null);
       return HTTP().post('/auth/register', {
+        username:state.registerUser,
         email: state.registerEmail,
         password: state.registerPassword,
         confirm_password : state.reRegisterPassword,
@@ -47,6 +55,10 @@ export default {
           console.log("login");
           commit('setToken', data.token);
           router.push('/');
+          HTTP().get('/basket/count')
+          .then(({data})=>{
+            commit('setCountBasket',data.count_basket);
+          })
         })
         .catch((e) => {
           if(e.response && e.response.status == 401){
@@ -56,6 +68,12 @@ export default {
           }
         });
     },
+    fetchCountBasket({commit}){
+      HTTP().get('/basket/count')
+      .then(({data})=>{
+        commit('setCountBasket',data.count_basket);
+      })
+    }
   },
   getters: {
     isLoggedIn(state) {
@@ -63,11 +81,20 @@ export default {
     },
   },
   mutations: {
+    addCountBasket(state,value){
+      state.count_basket += value;
+    },
+    setCountBasket(state,count_basket){
+      state.count_basket = count_basket;
+    },
     setToken(state, token) {
       state.token = token;
     },
     setRegisterError(state, error) {
       state.registerError = error;
+    },
+    setRegisterUser(state, user) {
+      state.registerUser = user;
     },
     setRegisterEmail(state, email) {
       state.registerEmail = email;

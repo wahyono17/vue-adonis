@@ -1,51 +1,43 @@
 <template>
+    <v-container>
     <v-row>
+        <div v-if="dialog">
+        <yono-dialog @closeDialog="closeDialog"></yono-dialog>
+        </div>
         <v-col v-for="n in 6" :key=n>
             <v-card
             >
                 <v-card-actions>
                     <div class="text-center">
-                        <v-dialog
-                        v-model="dialog"
-                        width="500"
-                        >
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn
-                            v-bind="attrs"
-                            v-on="on"
+                        <v-btn
+                            @click="dialog=true"
                             >
                             Click Me
-                            </v-btn>
-                        </template>
-
-                        <v-card>
-                            <v-divider></v-divider>
-
-                            <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn
-                                color="primary"
-                                text
-                                @click="dialog = false"
-                            >
-                                I accept
-                            </v-btn>
-                            </v-card-actions>
-                        </v-card>
-                        </v-dialog>
+                        </v-btn>
                     </div>
                 </v-card-actions>
             </v-card>
         </v-col>
     </v-row>
+    </v-container>
 </template>
 
 <script>
+import YonoDialog from '../components/YonoDialog.vue'
+
 export default {
+    components:{
+        YonoDialog,
+    },  
     data(){
         return {
             dialog: false,
         }
     },
+    methods:{
+        closeDialog(value){
+            this.dialog=value;
+        }
+    }
 }
 </script>

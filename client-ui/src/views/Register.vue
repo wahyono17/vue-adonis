@@ -5,6 +5,13 @@
         <h1>Register</h1>
 
         <v-text-field
+          label="Nama"
+          placeholder="Nama"
+          :value="registerUser"
+          @input="setRegisterUser"
+        ></v-text-field>
+
+        <v-text-field
           label="Email"
           placeholder="Email"
           :value="registerEmail"
@@ -48,6 +55,7 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 export default {
   computed: {
     ...mapState('authentication', [
+      'registerUser',
       'registerEmail',
       'registerPassword',
       'reRegisterPassword',
@@ -56,6 +64,7 @@ export default {
   },
   methods: {
     ...mapMutations('authentication', [
+      'setRegisterUser',
       'setRegisterEmail',
       'setRegisterPassword',
       'setReRegisterPassword',

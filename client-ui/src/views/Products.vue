@@ -1,8 +1,12 @@
 <template>
     <v-container>
         <v-row>
+            <div v-if="dialog">
+            <Basket :product="this.product" @closeDialog="closeDialog" 
+            ></Basket>
+            </div>
             <v-col v-for="product in products" :key="product.id"
-                cols="6"
+                cols="12"
                 sm="4"
                 md="3"
             >
@@ -40,14 +44,19 @@
                 <v-divider class="mx-4"></v-divider>
 
                 <v-card-actions>
-                <router-link :to="{ name: 'order', params: { id: product.id }}">
+                <router-link :to="{ name: 'productById', params: { id: product.id }}">
                     <v-btn 
                         color="primary"
                     >Beli</v-btn>
                 </router-link>
+                <v-btn
+                    class="ml-2" 
+                    color="success"
+                    @click="takeToBasket(product)"
+                    >
+                    + keranjang
+                </v-btn>
                 
-                
-
                 </v-card-actions>
                 
             </v-card>
@@ -65,16 +74,18 @@
 <script>
 
 import { mapActions, mapState, mapMutations, mapGetters } from 'vuex';
+import Basket from '../components/Basket.vue';
 
 export default {
     components:{
-        // Basket,//
+        Basket,
     },
-    // data () {
-    //   return {
-    //     
-    //   }
-    // },
+    data (){
+        return {
+            dialog: false,
+            product:{},
+        }
+    },
     mounted() {
         this.fetchProducts();
     },
@@ -89,6 +100,14 @@ export default {
         
     },//
     methods:{ //methods
+        takeToBasket(product){
+            this.product = product;
+            this.dialog = true;
+            // console.log(this.product.name);
+        },
+        closeDialog(value){
+            this.dialog=value;
+        },
         formatPrice(value) {
             let val = (value/1).toFixed(0).replace('.', ',')
             return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")

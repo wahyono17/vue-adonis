@@ -14,6 +14,14 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-items>
+
+        <v-btn color="green" to="/profile">
+          <v-icon class="mr-2">account_circle</v-icon>
+        </v-btn>
+        <v-btn color="green">
+        <v-icon class="mr-2">shopping_basket</v-icon>
+        <p>{{count_basket}}</p> 
+        </v-btn>
         <v-btn color="green" v-if="!isLoggedIn" to="/register">
           <v-icon class="mr-2">account_box</v-icon>
           Register
@@ -42,22 +50,28 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, mapState } from 'vuex';
 
 export default {
   data () {
-      return {
-
-      }
+    return {
+    }
+  },
+  mounted(){
+    this.fetchCountBasket();
   },
   computed:{
     ...mapGetters('authentication', [
       'isLoggedIn',
     ]),
+    ...mapState('authentication',[
+      'count_basket'
+    ])
   },
   methods:{
     ...mapActions('authentication', [
       'logout',
+      'fetchCountBasket'
     ]),
   }
 

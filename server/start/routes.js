@@ -19,9 +19,23 @@ Route.group(() => {
   Route.post('auth/register', 'UserController.register');
   Route.post('auth/login', 'UserController.login');
 
-  Route.get('product', 'ProductController.index');
+  Route.get('products', 'ProductController.index');
+  Route.get('product/:id', 'ProductController.productById').middleware('auth');
   Route.post('product', 'ProductController.create').middleware('auth');
   Route.get('product/myproduct', 'ProductController.myProductIndex').middleware('auth');
+
+  Route.get('basket','BasketController.index').middleware('auth');
+  Route.get('basket/count','BasketController.countBasket').middleware('auth');
+  Route.post('basket','BasketController.create').middleware('auth');
+
+  Route.get('province','ProvinceController.index').middleware('auth');
+  Route.get('regency/:id','RegencyController.index').middleware('auth');
+  Route.get('district/:id','DistrictController.index').middleware('auth');
+
+  Route.get('profile','ProfileController.profileById').middleware('auth');
+  Route.post('profile','ProfileController.create').middleware('auth');
+
+  Route.get('order/:id','OrderController.orderById').middleware('auth');
 
   Route.get('projects', 'ProjectController.index').middleware('auth');
   Route.post('projects', 'ProjectController.create').middleware('auth');

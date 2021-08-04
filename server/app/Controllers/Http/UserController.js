@@ -12,9 +12,10 @@ class UserController {
   }
 
   async register({ request,response }) {
-    const { email, password, confirm_password } = request.all();
+    const { username,email, password, confirm_password } = request.all();
 
     const rules = {
+      username: 'required',
       email: 'required|email',
       password: 'required'
     }
@@ -30,16 +31,16 @@ class UserController {
       return response.status(406).json({message:"password tidak sama"});
     }
 
-    //cek jika sudah ada user dengan nama itu maka kirim error exception
-    let result = await User.query().where('username',email).first();
-    if(result != null && result.username == email){
+    //cek jika sudah ada email dengan nama itu maka kirim error exception
+    let result = await User.query().where('email',email).first();
+    if(result != null && result.email == email){
       return response.status(406).json({message:"email sudah di pakai"});
     }
 
     await User.create({
       email,
       password,
-      username: email,
+      username,
     });
     return this.login(...arguments);
   }

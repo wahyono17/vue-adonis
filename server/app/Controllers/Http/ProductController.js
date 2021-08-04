@@ -78,6 +78,13 @@ class ProductController {
         return result;
     }
 
+    //ini adalah product select untuk order
+    async productById({params}){
+        const id  = params.id;
+        const product = await Product.find(id);
+        return product;
+    }
+
 }
 
 module.exports = ProductController

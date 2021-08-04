@@ -4,20 +4,22 @@ import Register from '../views/Register.vue'
 import Login from '../views/Login.vue'
 // import Home from '../views/Home.vue'
 import Products from '../views/Products.vue'
-import Order from '../views/Order.vue'
+import Product from '../views/Product.vue'
 import Yono from '../views/Yono.vue'
 import Test from '../views/Test.vue'
 import Test2 from '../views/Test2.vue'
 import Projects from '../views/Projects.vue'
+import Profile from '../views/Profile.vue'
+import ListTest from '../views/ListTest'
 
 Vue.use(VueRouter)
 
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'home',
-  //   component: Home
-  // },
+  {
+    path: '/list',
+    name: 'list',
+    component: ListTest
+  },
   {
     path: '/projects',
     name: 'projects',
@@ -34,14 +36,19 @@ const routes = [
     component: Login,
   },
   {
+    path: '/profile',
+    name: 'profile',
+    component: Profile,
+  },
+  {
     path: '/',
     name: 'products',
     component: Products,
   },
   {
-    path: '/order/:id',
-    name: 'order',
-    component: Order,
+    path: '/product/:id',
+    name: 'productById',
+    component: Product,
   },
   {
     path: '/yono',
