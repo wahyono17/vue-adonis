@@ -18,7 +18,7 @@
         <v-btn color="green" to="/profile">
           <v-icon class="mr-2">account_circle</v-icon>
         </v-btn>
-        <v-btn color="green">
+        <v-btn color="green" to="/basket">
         <v-icon class="mr-2">shopping_basket</v-icon>
         <p>{{count_basket}}</p> 
         </v-btn>

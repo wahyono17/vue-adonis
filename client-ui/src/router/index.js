@@ -11,6 +11,8 @@ import Test2 from '../views/Test2.vue'
 import Projects from '../views/Projects.vue'
 import Profile from '../views/Profile.vue'
 import ListTest from '../views/ListTest'
+import Basket from '../views/Basket.vue'
+
 
 Vue.use(VueRouter)
 
@@ -19,6 +21,11 @@ const routes = [
     path: '/list',
     name: 'list',
     component: ListTest
+  },
+  {
+    path: '/basket',
+    name: 'basket',
+    component: Basket
   },
   {
     path: '/projects',

@@ -20,6 +20,7 @@ Route.group(() => {
   Route.post('auth/login', 'UserController.login');
 
   Route.get('products', 'ProductController.index');
+  Route.get('products/login', 'ProductController.indexAfterLogin').middleware('auth');
   Route.get('product/:id', 'ProductController.productById').middleware('auth');
   Route.post('product', 'ProductController.create').middleware('auth');
   Route.get('product/myproduct', 'ProductController.myProductIndex').middleware('auth');
@@ -27,10 +28,13 @@ Route.group(() => {
   Route.get('basket','BasketController.index').middleware('auth');
   Route.get('basket/count','BasketController.countBasket').middleware('auth');
   Route.post('basket','BasketController.create').middleware('auth');
+  Route.delete('basket/:id','BasketController.destroy').middleware('auth');
+
+  Route.post('order','OrderController.createFromBasket').middleware('auth');
 
   Route.get('province','ProvinceController.index').middleware('auth');
   Route.get('regency/:id','RegencyController.index').middleware('auth');
-  Route.get('district/:id','DistrictController.index').middleware('auth');
+  Route.get('district/:id','DistrictController.destroy').middleware('auth');
 
   Route.get('profile','ProfileController.profileById').middleware('auth');
   Route.post('profile','ProfileController.create').middleware('auth');

@@ -1,36 +1,42 @@
 <template>
-  <v-container class="grey lighten-5">
-    <v-row>
-      <v-col v-for="n in 6" :key=n
-        cols="6"
-        sm="4"
-        md="3"
-      >
-        <v-card
-          class="pa-2"
-          outlined
-          tile
-        >
-          .col-6 .col-sm-4 .col-md-3
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Libero eum enim in quo, nobis consequatur ratione atque? Nihil tempore voluptatem sint debitis, doloribus sed perspiciatis a sit iste veniam delectus.
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col v-for="n in 6" :key=n
-        cols="6"
-        sm="4"
-        md="3"
-      >
-        <v-card
-          class="pa-2"
-          outlined
-          tile
-        >
-          .col-6 .col-sm-4 .col-md-3
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Libero eum enim in quo, nobis consequatur ratione atque? Nihil tempore voluptatem sint debitis, doloribus sed perspiciatis a sit iste veniam delectus.
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-card
+    class="mx-auto overflow-hidden"
+    height="200"
+    max-width="500"
+  >
+    <v-bottom-navigation
+      absolute
+      color="white"
+      hide-on-scroll
+      horizontal
+      scroll-target="#scroll-threshold-example"
+      scroll-threshold="500"
+    >
+      <v-btn>
+        <span>Recents</span>
+
+        <v-icon>mdi-history</v-icon>
+      </v-btn>
+
+      <v-btn>
+        <span>Favorites</span>
+
+        <v-icon>mdi-heart</v-icon>
+      </v-btn>
+
+      <v-btn>
+        <span>Nearby</span>
+
+        <v-icon>mdi-map-marker</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
+
+    <v-sheet
+      id="scroll-threshold-example"
+      class="overflow-y-auto pb-16"
+      max-height="600"
+    >
+      <v-responsive height="1500"></v-responsive>
+    </v-sheet>
+  </v-card>
 </template>

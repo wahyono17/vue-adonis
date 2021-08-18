@@ -16,6 +16,11 @@ export default {
     count_basket:0,
   },//
   actions: {
+    //lemparan dari basket view
+    reSetCountBasket({commit},value){
+      commit('setCountBasket',value)
+    },
+    //leparan dari basket component
     addCountBasket({commit},value){
       commit('addCountBasket',value);
     },

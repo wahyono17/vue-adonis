@@ -78,6 +78,26 @@ class ProductController {
         return result;
     }
 
+    //ini adalah all product setelah login
+    async indexAfterLogin({auth,request}){
+        const user = await auth.getUser();
+        const {page} = request.all();
+
+        const result = await Database
+                .select([ 'products.*'
+                ,Database.raw('concat("http://localhost:3333/images/aple.jpg") as images')
+                ,Database.raw('concat("toko abadi") as store_name')
+                ,Database.raw('concat("lamat rumah di perumahan naga asri") as store_address')
+
+                ])
+                .from('products')
+                .where('store_id','<>',user.id)
+                .where('deleted_at',null)
+                .forPage(page,12);
+
+        return result;
+    }
+
     //ini adalah product select untuk order
     async productById({params}){
         const id  = params.id;

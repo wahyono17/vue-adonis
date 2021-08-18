@@ -7,8 +7,14 @@ class BasketController {
     async index({auth}){
         const user = await auth.getUser();
         return await user.baskets()
+                .select(['baskets.*','users.username as store_name','products.name','products.unit'
+                ,'products.patungan_price','products.description',Database.raw('baskets.qty * products.patungan_price as total')])
+                .join('users','baskets.store_id','=','users.id')
+                .join('products','baskets.product_id','=','products.id')
                 .where('make_order',null)
-                .where('deleted_at',null)
+                .where('baskets.deleted_at',null)
+                .orderBy('baskets.store_id')
+                .orderBy('baskets.id')
                 .fetch();
     }
 
@@ -35,6 +41,19 @@ class BasketController {
         });
 
         return response.status(201).json({message:"penambahan ke basket berhasil"});
+    }
+
+    async destroy({auth,params,response}){
+        const user = await auth.getUser();
+        const {id} = params
+
+        const basket = await user.baskets().where('id',id).first()
+
+        const time = new Date(Date.now());
+        basket.deleted_at = time;
+        basket.save();
+        
+        return response.status(200).json({message:"hapus basket berhasil"});
     }
 }
 
