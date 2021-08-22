@@ -13,6 +13,7 @@ sync(store, router)
 
 Vue.component('Panel',Panel)
 
+
 new Vue({
   vuetify,
   router,

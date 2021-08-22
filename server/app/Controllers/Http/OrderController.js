@@ -74,7 +74,15 @@ class OrderController {
         return response.status(201).json({message:"pesanan berhasil dibuat"});
     }
 
-    //index 
+    async index({auth,request,response}){
+        const user = await auth.getUser();
+
+        return await Order.query()
+                    .select(['orders.*','users.username as store_name',Database.raw('sub_total + uniq_payment as payment_amount')])
+                    .join('users','orders.store_id','users.id')
+                    .where('user_id',user.id)
+                    .fetch();
+    }
 }
 
 module.exports = OrderController

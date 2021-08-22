@@ -12,7 +12,7 @@ import Projects from '../views/Projects.vue'
 import Profile from '../views/Profile.vue'
 import ListTest from '../views/ListTest'
 import Basket from '../views/Basket.vue'
-
+import Orders from '../views/Orders.vue'
 
 Vue.use(VueRouter)
 
@@ -26,6 +26,11 @@ const routes = [
     path: '/basket',
     name: 'basket',
     component: Basket
+  },
+  {
+    path: '/orders',
+    name: 'orders',
+    component: Orders
   },
   {
     path: '/projects',
