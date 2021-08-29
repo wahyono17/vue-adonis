@@ -4,19 +4,28 @@
       <v-col>
         <v-card
         >
+        <div>
+          <div class="float-right">
+            <v-chip class="ml-0 mr-2 black--text"
+            label small
+            >
+                <span class="">Belum dibayar</span>
+            </v-chip>
+          </div>
+        </div>
           <v-row>
-            <v-col cols="10">
-              <p><span class="text-bold ml-2">{{order.store_name}} </span>  <br>
-                <span class="text-small ml-2">{{moment(order.created_at)}}</span>
+            <v-col cols="12" md="6">
+              <p><span class="text-small ml-2">Beli dari </span>
+                <span class="text-bold ml-2">{{order.store_name}} </span>  <br>
+                <span class="text-small ml-2">Tanggal {{moment(order.created_at)}}</span>
               </p>
             </v-col>
-            <v-col cols="2">
-              <!-- <div class="d-flex justify-end">
-                <v-icon @click="remove(order)" color="#4042b3">delete</v-icon>
-                <v-checkbox
-                  v-model="order.checkbox" @change="calculateTotal(order)"
-                ></v-checkbox>
-              </div> -->
+            <v-col cols="12" md="6">
+              <p>
+                <span class="text-small ml-2">Total Transaksi Rp {{formatPrice(order.sub_total)}}</span> <br>
+                <span class="text-small ml-2">Yang harus dibayar </span>
+                <span class="text-bold ml-2">Rp {{formatPrice(order.payment_amount)}} </span>
+              </p>
             </v-col>
           </v-row>
 
@@ -38,6 +47,7 @@
 <script>
 import HTTP from '../http';
 import moment from 'moment';
+moment.locale('id');
 export default {
     data () {
       return {
@@ -49,12 +59,15 @@ export default {
       .then(({data})=>{
         this.orders = data
       })
-      console.log(moment.locale()); 
     },
     methods:{
       moment: function (date) {
-        return moment(date).format('MMMM Do YY');
-      }
+        return moment(date).format('Do MMMM YY');
+      },
+      formatPrice(value) {
+        let val = (value/1).toFixed(0).replace('.', ',')
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+      },
     }
 
 }
