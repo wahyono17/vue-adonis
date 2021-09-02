@@ -1,5 +1,6 @@
 <template>
 <v-container>
+  <div style="margin-top:10px">
      <v-row v-for="order in orders" :key="order.id">
       <v-col>
         <v-card
@@ -28,19 +29,16 @@
               </p>
             </v-col>
           </v-row>
-
-          <!-- <div class="d-flex justify-space-between">
-            <p> <span class="text-small ml-2">Harga :</span> Rp {{formatPrice(order.patungan_price)}}</p> 
-            <p class="mr-2"> <span class="text-small">Jumlah :</span> {{order.qty}} {{order.unit}}</p>
+          <div>
+            <div class="d-flex flex-row-reverse">
+              <v-btn small class="mr-2 mb-2 primary">Metode pembayaran</v-btn>
+              <v-btn small class="mr-2 mb-2">Detail</v-btn>
+            </div>
           </div>
-          <div class="d-flex justify-space-between">
-            <p> <span class="text-small ml-2">Total :</span> Rp {{formatPrice(order.total)}}</p> 
-            <p class="mr-2"> <span class="text-small">Pesan dari :</span> {{order.store_name}}</p>
-          </div> -->
-          
         </v-card>
       </v-col>  
     </v-row>
+  </div>  
 </v-container>
 </template>
 
@@ -74,10 +72,5 @@ export default {
 </script>
 
 <style lang="scss">
-  .text-bold{
-    font-size: 20px;
-  }
-  .text-small{
-    font-size: 14px;
-  }
+  
 </style>

@@ -61,4 +61,12 @@ export default {
     }
   }
 }
+
+//clas tambahan yono
+.text-bold{
+    font-size: 20px;
+  }
+  .text-small{
+    font-size: 14px;
+  }
 </style>

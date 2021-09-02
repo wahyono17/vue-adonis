@@ -126,12 +126,6 @@ import HTTP from '../http';
 </script>
 
 <style lang="scss">
-  .text-bold{
-    font-size: 20px;
-  }
-  .text-small{
-    font-size: 14px;
-  }
   .fixed {
     position: fixed;
     bottom: 0;
