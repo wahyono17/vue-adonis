@@ -13,6 +13,7 @@ import Profile from '../views/Profile.vue'
 import ListTest from '../views/ListTest'
 import Basket from '../views/Basket.vue'
 import Orders from '../views/Orders.vue'
+import Order from '../views/Order.vue'
 
 Vue.use(VueRouter)
 
@@ -31,6 +32,11 @@ const routes = [
     path: '/orders',
     name: 'orders',
     component: Orders
+  },
+  {
+    path: '/order/:id',
+    name: 'order',
+    component: Order
   },
   {
     path: '/projects',

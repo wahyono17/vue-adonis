@@ -1,13 +1,13 @@
 <template>
     <v-container>
-        <v-alert
+        <!-- <v-alert
             :value="alert"
             dense
             text
             type="success"
             >
             {{this.message}}
-        </v-alert>
+        </v-alert> -->
         <v-text-field
           v-model="profile.username"  
           label="Nama"
@@ -140,8 +140,10 @@ export default {
             })
             .then(({data})=>{
                 this.message = data.message
-                this.alert = true
-                this.hide_alert()
+                // this.alert = true
+                // this.hide_alert()
+                //munculkan pesan sukses di snackbar
+                this.$emit('showMessage',true);
             })
             .catch((e)=>{
                 if(e.response && e.response.status === 406){

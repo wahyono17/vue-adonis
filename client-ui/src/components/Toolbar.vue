@@ -18,7 +18,7 @@
         <v-btn color="green" to="/profile">
           <v-icon class="mr-2">account_circle</v-icon>
         </v-btn>
-        <v-btn color="green">
+        <v-btn color="green" to="/orders">
           <v-icon class="mr-2">shopping_bag</v-icon>
         </v-btn>
         <v-btn color="green" to="/basket">
@@ -39,14 +39,12 @@
           <v-icon class="mr-2">exit_to_app</v-icon>
           Logout
         </v-btn>
-
-
       </v-toolbar-items>
+      
     </v-app-bar>
-
     <v-sheet
     >
-      <v-container style="height: 50px;">
+      <v-container style="height: 50px;"> 
       </v-container>
     </v-sheet>
   </v-card>
@@ -56,8 +54,15 @@
 import { mapGetters, mapActions, mapState } from 'vuex';
 
 export default {
+  props:{
+    snackbarP:{
+      type: Boolean,
+      required: true,
+    }
+  },
   data () {
     return {
+      
     }
   },
   mounted(){
@@ -68,8 +73,8 @@ export default {
       'isLoggedIn',
     ]),
     ...mapState('authentication',[
-      'count_basket'
-    ])
+      'count_basket',
+    ]),   
   },
   methods:{
     ...mapActions('authentication', [
@@ -80,4 +85,6 @@ export default {
 
 }
 </script>
+
+
 

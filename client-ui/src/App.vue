@@ -1,10 +1,14 @@
 <template>
   <v-app>
-    <Toolbar v-if="!mobileView"/>
+    <Toolbar v-if="!mobileView" :snackbarP="snackbar"/>
     <ToolbarMobile v-if="mobileView"/>
 
+    <v-snackbar v-model="snackbar" :timeout="2000" color="purple lighten-5" top>
+      <span style="color:black">{{messageText}}</span>
+    </v-snackbar>
+
     <div id="app">
-      <router-view/>
+      <router-view @showMessage="showMessage"/>
     </div>
 
   </v-app>
@@ -18,7 +22,9 @@ import ToolbarMobile from '@/components/ToolbarMobile.vue';
 export default {
   data: () => {
     return {
-      mobileView: false,
+      mobileView:false,
+      snackbar:true,
+      messageText:"test di app.vue"
     };
   },
   components: {
@@ -29,6 +35,10 @@ export default {
   methods: {
     handleView() {
       this.mobileView = window.innerWidth <= 990;
+    },
+    showMessage(value){
+      this.snackbar = value
+      console.log(this.snackbar);
     }
   },
   created() {

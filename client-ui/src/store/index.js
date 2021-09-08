@@ -14,6 +14,8 @@ export default new Vuex.Store({
     baseUrl: '/api',
     // baseUrl: 'http://localhost:3333/api',
   },
+  getters:{
+  },
   mutations: {
   },
   actions: {

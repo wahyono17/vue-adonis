@@ -17,7 +17,7 @@
 import Toolbar from '@/components/Toolbar.vue';
 
 export default {
-   components: {
+  components: {
     Toolbar,
   },
 }

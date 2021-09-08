@@ -32,7 +32,9 @@
           <div>
             <div class="d-flex flex-row-reverse">
               <v-btn small class="mr-2 mb-2 primary">Metode pembayaran</v-btn>
-              <v-btn small class="mr-2 mb-2">Detail</v-btn>
+              <router-link :to="{ name: 'order', params: { id: order.id }}">
+                <v-btn small class="mr-2 mb-2">Detail</v-btn>
+              </router-link>  
             </div>
           </div>
         </v-card>
@@ -46,6 +48,7 @@
 import HTTP from '../http';
 import moment from 'moment';
 moment.locale('id');
+
 export default {
     data () {
       return {

@@ -32,10 +32,11 @@ Route.group(() => {
 
   Route.post('order','OrderController.createFromBasket').middleware('auth');
   Route.get('orders','OrderController.index').middleware('auth');
+  Route.get('order/:id','OrderController.detail').middleware('auth');
 
   Route.get('province','ProvinceController.index').middleware('auth');
   Route.get('regency/:id','RegencyController.index').middleware('auth');
-  Route.get('district/:id','DistrictController.destroy').middleware('auth');
+  Route.get('district/:id','DistrictController.index').middleware('auth');
 
   Route.get('profile','ProfileController.profileById').middleware('auth');
   Route.post('profile','ProfileController.create').middleware('auth');

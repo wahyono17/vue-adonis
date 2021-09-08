@@ -83,6 +83,20 @@ class OrderController {
                     .where('user_id',user.id)
                     .fetch();
     }
+
+    async detail({auth,params}){
+        const user = await auth.getUser();
+        const {id} = params
+
+        return await OrderDetail.query()
+            .select(['order_details.*','products.name'])
+            .join('orders','order_details.order_id','orders.id')
+            .join('products','order_details.product_id','=','products.id')
+            .where('user_id',user.id)
+            .where('order_id',id)
+            .where('order_details.deleted_at',null)
+            .fetch();
+    }
 }
 
 module.exports = OrderController
