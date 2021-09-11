@@ -1,13 +1,5 @@
 <template>
     <v-container>
-        <!-- <v-alert
-            :value="alert"
-            dense
-            text
-            type="success"
-            >
-            {{this.message}}
-        </v-alert> -->
         <v-text-field
           v-model="profile.username"  
           label="Nama"
@@ -78,8 +70,6 @@ export default {
             regency:[],
             district:[],
             district_id:null,
-            message:null,
-            alert: false,
             mobile_error:false,
             username_error:false,
             district_error:false,
@@ -102,11 +92,11 @@ export default {
         })
     },
     methods:{
-        hide_alert(){
-            window.setInterval(() => {
-                this.alert = false;
-            }, 1000)    
-        },
+        // hide_alert(){
+        //     window.setInterval(() => {
+        //         this.alert = false;
+        //     }, 1000)    
+        // },
         selectRegency(province){
             HTTP().get('/regency/'+province.value)
             .then(({data})=>{
@@ -139,11 +129,11 @@ export default {
                 address:this.profile.address,
             })
             .then(({data})=>{
-                this.message = data.message
+                // this.message = data.message
                 // this.alert = true
                 // this.hide_alert()
                 //munculkan pesan sukses di snackbar
-                this.$emit('showMessage',true);
+                this.$emit('showMessage',data.message,true);
             })
             .catch((e)=>{
                 if(e.response && e.response.status === 406){

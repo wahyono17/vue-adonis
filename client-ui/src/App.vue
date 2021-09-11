@@ -3,7 +3,7 @@
     <Toolbar v-if="!mobileView" :snackbarP="snackbar"/>
     <ToolbarMobile v-if="mobileView"/>
 
-    <v-snackbar v-model="snackbar" :timeout="2000" color="purple lighten-5" top>
+    <v-snackbar v-model="snackbar" :timeout="1500" color="purple lighten-5" top>
       <span style="color:black">{{messageText}}</span>
     </v-snackbar>
 
@@ -23,8 +23,8 @@ export default {
   data: () => {
     return {
       mobileView:false,
-      snackbar:true,
-      messageText:"test di app.vue"
+      snackbar:false,
+      messageText:""
     };
   },
   components: {
@@ -36,9 +36,9 @@ export default {
     handleView() {
       this.mobileView = window.innerWidth <= 990;
     },
-    showMessage(value){
+    showMessage(message,value){
+      this.messageText = message
       this.snackbar = value
-      console.log(this.snackbar);
     }
   },
   created() {
