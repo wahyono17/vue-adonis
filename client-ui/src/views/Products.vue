@@ -2,7 +2,7 @@
     <v-container>
         <v-row>
             <div v-if="dialog">
-            <Basket :product="this.product" @closeDialog="closeDialog" 
+            <Basket :product="this.product" @closeDialog="closeDialog" @showMessage="showMessage" 
             ></Basket>
             </div>
             <v-col v-for="product in products" :key="product.id"
@@ -107,6 +107,9 @@ export default {
         },
         closeDialog(value){
             this.dialog=value;
+        },
+        showMessage(message,bolSatatus){
+            this.$emit('showMessage',message,bolSatatus);
         },
         formatPrice(value) {
             let val = (value/1).toFixed(0).replace('.', ',')

@@ -9,16 +9,6 @@
           
           <v-card-text>
             <div>{{this.product.description}}</div>
-
-            <v-alert
-              :value="alert"
-              dense
-              text
-              type="success"
-              >
-              {{this.message}}
-            </v-alert>
-
           </v-card-text>
           <div class="d-flex justify-space-between">
             <p><span class="grey--text text-darken-1 ma-2">jumlah pesanan</span></p> 
@@ -62,21 +52,19 @@ export default {
         dialog:true,
         patungan_price:this.product.patungan_price,
         orderQty:1,
-        message:"",
-        alert: false,
       }
     }, 
     methods:{
-      hide_alert(){
-        window.setInterval(() => {
-          this.alert = false;
-        }, 1000)    
-      },
-      closeDialog_afterTime(){
-        window.setInterval(()=>{
-          this.$emit('closeDialog',false);
-        },1500)
-      },
+      // hide_alert(){
+      //   window.setInterval(() => {
+      //     this.alert = false;
+      //   }, 1000)    
+      // },
+      // closeDialog_afterTime(){
+      //   window.setInterval(()=>{
+      //     this.$emit('closeDialog',false);
+      //   },1500)
+      // },
       recOrderQty(value){
         this.orderQty = value;  
         this.patungan_price = this.orderQty * this.product.patungan_price;
@@ -91,12 +79,8 @@ export default {
         })
         .then(({data}) => {
           //tampilkan pesan
-          this.alert = true;
-          this.message = data.message;
-          this.hide_alert();
-          // this.$store.dispatch('addCountBasket',this.orderQty).authentication;
-          
-          this.closeDialog_afterTime();
+          this.$emit('showMessage',data.message,true);
+          this.$emit('closeDialog',false);
         }).catch((err) => {
           console.log(err)
           this.$emit('closeDialog',false);
