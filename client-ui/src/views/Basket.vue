@@ -88,6 +88,7 @@ import HTTP from '../http';
         }else{
           this.totalValue -= value.total;
         }
+        // console.log(this.baskets);
       },
       isCheckAll(){
         if(this.checkAll == true){
@@ -113,10 +114,15 @@ import HTTP from '../http';
         });
 
         HTTP().post('/order',itemOrder)
-        .then(()=>{
+        .then(({data})=>{
           //hapus data di index, sisakan yg belum di click saja
-          this.baskets = this.baskets.filter(b=> b.checkbox==false);
+          this.baskets = this.baskets.filter(b=> b.checkbox==false || b.checkbox == null);
+          //tampilkan pesan berhasil di snackbar
+          this.$emit('showMessage',data.message,true);
           this.checkAll = false;
+          //totalvalue reset jadikan nol lagi
+          this.totalValue = 0;
+          //hitung ulang untuk basket counter
           this.$store.dispatch('authentication/reSetCountBasket',this.baskets.length);
         });
       }
