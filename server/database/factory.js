@@ -16,7 +16,7 @@ const Factory = use('Factory')
 
 Factory.blueprint('App/Models/Product', (faker) => {
   return {
-    store_id:1,
+    store_id:2,
     name: faker.username(),
     description: faker.sentence(),
     price:10000,
@@ -26,3 +26,10 @@ Factory.blueprint('App/Models/Product', (faker) => {
   }
 })
 
+Factory.blueprint('App/Models/Account', () => {
+  return {
+    bank:"BANK Btpn",
+    name:"PT Yono test",
+    number:"098348745321",
+  }
+})
