@@ -15,7 +15,7 @@
           <v-btn
             color="primary"
             text
-            @click="$emit('closeCard')" 
+            @click="$emit('closeCard')"
           >
             I accept
           </v-btn>
