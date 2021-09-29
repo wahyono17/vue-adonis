@@ -19,7 +19,8 @@
           <v-icon class="mr-2">account_circle</v-icon>
         </v-btn>
         <v-btn color="green" to="/orders">
-          <v-icon class="mr-2">shopping_bag</v-icon>
+          <v-icon class="mr-2">shopping_bag</v-icon>  
+          <p>12</p> 
         </v-btn>
         <v-btn color="green" to="/basket">
           <v-icon class="mr-2">shopping_basket</v-icon>

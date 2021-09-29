@@ -58,7 +58,9 @@ export default {
   // text-align: center;
   color: #2c3e50;
 }
-
+.non-transform {
+  text-transform: none !important;
+}
 #nav {
   padding: 30px;
 

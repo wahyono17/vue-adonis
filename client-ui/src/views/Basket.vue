@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="d-flex justify-end" style="margin-top:-20px">
-      <v-checkbox 
+      <v-checkbox v-if="checkboxElement"
         v-model="checkAll"
         @change="isCheckAll"
       ></v-checkbox>
@@ -66,12 +66,17 @@ import HTTP from '../http';
         baskets:[],
         checkAll:false,
         totalValue:0,
+        checkboxElement:false
       }
     },
     mounted() {
       HTTP().get('/basket')
       .then(({data})=>{
         this.baskets = data
+        //jika ada basekets maka munculkan opsi chekall
+        if(this.baskets.length > 0){
+          this.checkboxElement = true;
+        }
       })
     },
     methods:{

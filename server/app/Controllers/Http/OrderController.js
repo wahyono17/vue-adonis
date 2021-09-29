@@ -78,9 +78,18 @@ class OrderController {
         const user = await auth.getUser();
 
         return await Order.query()
-                    .select(['orders.*','users.username as store_name',Database.raw('sub_total + uniq_payment as payment_amount')])
+                    .select(['orders.*','users.username as store_name'
+                    ,Database.raw('sub_total + uniq_payment as payment_amount')
+                    ,Database.raw('concat(profiles.address," ",districts.name," ",regencies.name," ",provinces.name) as address')
+                    ,'order_statuses.name as order_status'
+                    ])
                     .join('users','orders.store_id','users.id')
-                    .where('user_id',user.id)
+                    .leftJoin('order_statuses','orders.status_id','order_statuses.status_id')
+                    .leftJoin('profiles','orders.store_id','profiles.user_id')
+                    .leftJoin('districts','profiles.district_id','districts.district_id')
+                    .leftJoin('regencies','districts.regency_id','regencies.regency_id')
+                    .leftJoin('provinces','regencies.province_id','provinces.provincy_id')
+                    .where('orders.user_id',user.id)
                     .fetch();
     }
 

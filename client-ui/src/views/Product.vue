@@ -33,13 +33,10 @@
                     Konfirmasi
                 </v-btn>
             </v-card>
-            
-            
-            
         </v-col>
         <v-col cols="12" md="4">
-            <p>{{product.store_id}} / nama toko <br>
-                alamat toko
+            <p>{{product.store_name}}<br>
+                {{product.address}}
             </p>
         </v-col>
     </v-row>    

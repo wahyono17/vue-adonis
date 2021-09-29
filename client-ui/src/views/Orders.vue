@@ -1,14 +1,31 @@
 <template>
 <v-container>
-  <div style="margin-top:10px">
-     <v-row v-for="order in orders" :key="order.id">
+    <v-sheet elevation="6">
+      <v-tabs
+        next-icon="mdi-arrow-right-bold-box-outline"
+        prev-icon="mdi-arrow-left-bold-box-outline"
+        show-arrows
+      >
+        <v-tabs-slider></v-tabs-slider>
+        <v-tab
+          class="non-transform"
+          v-for="tab in tabs"
+          :key="tab.id"
+        >
+          {{ tab.name }} <span><v-chip>{{tab.count}}</v-chip></span>
+        </v-tab>
+      </v-tabs>
+    </v-sheet>
+
+    <div style="margin-top:20px">
+    <v-row v-for="order in orders" :key="order.id">
       <v-col>
         <v-card
         >
         <div>
           <div class="float-right">
-            <v-chip class="ml-0 mr-2 black--text"
-            label small
+            <v-chip class="ml-0 mr-2 mt-2 black--text"
+            label
             >
                 <span class="">Belum dibayar</span>
             </v-chip>
@@ -16,24 +33,33 @@
         </div>
           <v-row>
             <v-col cols="12" md="6">
-              <p><span class="text-small ml-2">Beli dari </span>
-                <span class="text-bold ml-2">{{order.store_name}} </span>  <br>
-                <span class="text-small ml-2">Tanggal {{moment(order.created_at)}}</span>
+              <p><span class="font-weight-regular ml-2">Beli dari </span>
+                <span class="font-weight-bold">{{order.store_name}} </span>
               </p>
+              <div class="ml-2">
+                <span class="">{{order.address}}</span> <br>
+                <span class="">Tanggal {{moment(order.created_at)}}</span>
+              </div>
             </v-col>
             <v-col cols="12" md="6">
               <p>
-                <span class="text-small ml-2">Total Transaksi Rp {{formatPrice(order.sub_total)}}</span> <br>
-                <span class="text-small ml-2">Yang harus dibayar </span>
-                <span class="text-bold ml-2">Rp {{formatPrice(order.payment_amount)}} </span>
+                <span class=" ml-2">Total Transaksi Rp {{formatPrice(order.sub_total)}}</span> <br>
+                <span class=" ml-2">Yang harus dibayar </span>
+                <v-chip
+                  color="#42c5f5"
+                >
+                  <span class="text-bold ml-2 white--text">Rp {{formatPrice(order.payment_amount)}} </span>
+                </v-chip>
               </p>
             </v-col>
           </v-row>
           <div>
             <div class="d-flex flex-row-reverse">
-              <v-btn small class="mr-2 mb-2 primary">Metode pembayaran</v-btn>
+              <router-link :to="{name:'accounts'}">
+                <v-btn class="primary mr-2 mb-2">Metode pembayaran</v-btn>
+              </router-link>
               <router-link :to="{ name: 'order', params: { id: order.id }}">
-                <v-btn small class="mr-2 mb-2">Detail</v-btn>
+                <v-btn class="mr-2 mb-2">Detail</v-btn>
               </router-link>  
             </div>
           </div>
@@ -53,6 +79,11 @@ export default {
     data () {
       return {
         orders:[],
+        tabs:[
+          {name:"Belum dibayar",count:12},
+          {name:"Sudah dibayar",count:12},
+          {name:"Konfirmasi",count:20},
+        ],
       }
     },
     mounted() {

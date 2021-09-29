@@ -53,5 +53,7 @@ Route.group(() => {
 
   Route.delete('tasks/:id', 'TaskController.destroy').middleware('auth');
   Route.patch('tasks/:id', 'TaskController.update').middleware('auth');
+
+  Route.get('accounts','AccountController.index').middleware('auth');
 })
   .prefix('api');

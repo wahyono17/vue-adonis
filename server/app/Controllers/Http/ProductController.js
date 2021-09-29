@@ -67,11 +67,15 @@ class ProductController {
         const result = await Database
                 .select([ 'products.*'
                 ,Database.raw('concat("http://localhost:3333/images/aple.jpg") as images')
-                ,Database.raw('concat("toko abadi") as store_name')
-                ,Database.raw('concat("lamat rumah di perumahan naga asri") as store_address')
-
+                ,'users.username as store_name'
+                ,Database.raw('concat(profiles.address," ",districts.name," ",regencies.name," ",provinces.name) as address')
                 ])
                 .from('products')
+                .leftJoin('users','products.store_id','users.id')
+                .leftJoin('profiles','products.store_id','profiles.user_id')
+                .leftJoin('districts','profiles.district_id','districts.district_id')
+                .leftJoin('regencies','districts.regency_id','regencies.regency_id')
+                .leftJoin('provinces','regencies.province_id','provinces.provincy_id')
                 .where('deleted_at',null)
                 .forPage(page,12);
 
@@ -86,11 +90,15 @@ class ProductController {
         const result = await Database
                 .select([ 'products.*'
                 ,Database.raw('concat("http://localhost:3333/images/aple.jpg") as images')
-                ,Database.raw('concat("toko abadi") as store_name')
-                ,Database.raw('concat("lamat rumah di perumahan naga asri") as store_address')
-
+                ,'users.username as store_name'
+                ,Database.raw('concat(profiles.address," ",districts.name," ",regencies.name," ",provinces.name) as address')
                 ])
                 .from('products')
+                .leftJoin('users','products.store_id','users.id')
+                .leftJoin('profiles','products.store_id','profiles.user_id')
+                .leftJoin('districts','profiles.district_id','districts.district_id')
+                .leftJoin('regencies','districts.regency_id','regencies.regency_id')
+                .leftJoin('provinces','regencies.province_id','provinces.provincy_id')
                 .where('store_id','<>',user.id)
                 .where('deleted_at',null)
                 .forPage(page,12);
@@ -101,7 +109,22 @@ class ProductController {
     //ini adalah product select untuk order
     async productById({params}){
         const id  = params.id;
-        const product = await Product.find(id);
+
+        // const product = await Product.find(id);
+        const product = await Database
+            .select([ 'products.*'
+            ,'users.username as store_name'
+            ,Database.raw('concat(profiles.address," ",districts.name," ",regencies.name," ",provinces.name) as address')
+            ])
+            .from('products')
+            .leftJoin('users','products.store_id','users.id')
+            .leftJoin('profiles','products.store_id','profiles.user_id')
+            .leftJoin('districts','profiles.district_id','districts.district_id')
+            .leftJoin('regencies','districts.regency_id','regencies.regency_id')
+            .leftJoin('provinces','regencies.province_id','provinces.provincy_id')
+            .where('deleted_at',null)
+            .where('products.id',id)
+            .first();
         return product;
     }
 

@@ -14,10 +14,16 @@ import ListTest from '../views/ListTest'
 import Basket from '../views/Basket.vue'
 import Orders from '../views/Orders.vue'
 import Order from '../views/Order.vue'
+import Accounts from '../views/Accounts.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/accounts',
+    name: 'accounts',
+    component: Accounts
+  },
   {
     path: '/list',
     name: 'list',

@@ -28,7 +28,7 @@
                     class="mx-0"
                 >
                     <div class="grey--text ms-4">
-                    {{product.store_name}} / {{product.store_address}}
+                    {{product.store_name}} / {{product.address}}
                     </div>
                 </v-row>
 

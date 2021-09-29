@@ -25,11 +25,3 @@ Factory.blueprint('App/Models/Product', (faker) => {
     quota_patungan:20,
   }
 })
-
-Factory.blueprint('App/Models/Account', () => {
-  return {
-    bank:"BANK Btpn",
-    name:"PT Yono test",
-    number:"098348745321",
-  }
-})
