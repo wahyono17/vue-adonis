@@ -11,6 +11,7 @@
           class="non-transform"
           v-for="tab in tabs"
           :key="tab.id"
+          @click="getByStatus(tab.id)"
         >
           {{ tab.name }} <span><v-chip>{{tab.count}}</v-chip></span>
         </v-tab>
@@ -79,17 +80,14 @@ export default {
     data () {
       return {
         orders:[],
-        tabs:[
-          {name:"Belum dibayar",count:12},
-          {name:"Sudah dibayar",count:12},
-          {name:"Konfirmasi",count:20},
-        ],
+        tabs:[],
       }
     },
     mounted() {
       HTTP().get('/orders')
       .then(({data})=>{
-        this.orders = data
+        this.orders = data.data
+        this.tabs = data.tabs
       })
     },
     methods:{
@@ -100,6 +98,14 @@ export default {
         let val = (value/1).toFixed(0).replace('.', ',')
         return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
       },
+      getByStatus(id){
+        // console.log(id)
+        HTTP().get('/orders'+'?status='+id)
+        .then(({data})=>{
+          console.log(data)
+          this.orders = data.data
+        })
+      }
     }
 
 }

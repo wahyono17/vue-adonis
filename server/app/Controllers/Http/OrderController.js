@@ -76,8 +76,11 @@ class OrderController {
 
     async index({auth,request,response}){
         const user = await auth.getUser();
+        const status = request.input('status',1);
+        // const page = request.input('page', 1);
+        // const limit = 10;
 
-        return await Order.query()
+        const result =  await Order.query()
                     .select(['orders.*','users.username as store_name'
                     ,Database.raw('sub_total + uniq_payment as payment_amount')
                     ,Database.raw('concat(profiles.address," ",districts.name," ",regencies.name," ",provinces.name) as address')
@@ -90,7 +93,26 @@ class OrderController {
                     .leftJoin('regencies','districts.regency_id','regencies.regency_id')
                     .leftJoin('provinces','regencies.province_id','provinces.provincy_id')
                     .where('orders.user_id',user.id)
+                    .where('orders.status_id',status)
                     .fetch();
+                    // .paginate(page, limit);
+
+        //hitung subtotalnya
+        const subtotal = await Order.query()            
+                    .select(['status_id as id'
+                    ,Database.raw('CASE WHEN status_id = 1 THEN "Belum dibayar" WHEN status_id = 2 THEN "Dibayar" WHEN status_id = 3 THEN "Konfirmasi" END as name')
+                    ,Database.raw('count(orders.id) as count')
+                    ])
+                    .join('users','orders.store_id','users.id')
+                    .where('orders.user_id',user.id)
+                    .whereIn('orders.status_id',[1,2,3])
+                    .groupBy('status_id')
+                    .get();
+
+        return {
+            data:result,
+            tabs:subtotal
+        }       
     }
 
     async detail({auth,params}){
