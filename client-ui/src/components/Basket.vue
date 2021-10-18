@@ -70,7 +70,7 @@ export default {
         this.patungan_price = this.orderQty * this.product.patungan_price;
       },
       confirm(){
-        this.$store.dispatch('authentication/addCountBasket',this.orderQty);
+        this.$store.dispatch('authentication/addCountBasket',1);//karena confirm 1 1
         //masukan ke table basket harga tdk usah di ikutkan
         HTTP().post('/basket',{
           store_id:this.product.store_id,

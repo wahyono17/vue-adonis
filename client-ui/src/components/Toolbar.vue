@@ -20,7 +20,7 @@
         </v-btn>
         <v-btn color="green" to="/orders">
           <v-icon class="mr-2">shopping_bag</v-icon>  
-          <p>12</p> 
+          <p>{{count_orders}}</p> 
         </v-btn>
         <v-btn color="green" to="/basket">
           <v-icon class="mr-2">shopping_basket</v-icon>
@@ -67,7 +67,8 @@ export default {
     }
   },
   mounted(){
-    this.fetchCountBasket();
+    this.fetchCountBasket();//untuk hitung jumlah basket
+    this.fetchCountOrders();
   },
   computed:{
     ...mapGetters('authentication', [
@@ -75,12 +76,14 @@ export default {
     ]),
     ...mapState('authentication',[
       'count_basket',
+      'count_orders'
     ]),   
   },
   methods:{
     ...mapActions('authentication', [
       'logout',
-      'fetchCountBasket'
+      'fetchCountBasket',
+      'fetchCountOrders',
     ]),
   }
 

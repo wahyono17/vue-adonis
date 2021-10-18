@@ -118,8 +118,8 @@ import HTTP from '../http';
           return el.checkbox == true
         });
 
-        HTTP().post('/order',itemOrder)
-        .then(({data})=>{
+        HTTP().post('/order',itemOrder)//pembagian order bedasarkan toko dikerjakan dari backend
+        .then(({data})=>{ 
           //hapus data di index, sisakan yg belum di click saja
           this.baskets = this.baskets.filter(b=> b.checkbox==false || b.checkbox == null);
           //tampilkan pesan berhasil di snackbar
@@ -129,6 +129,8 @@ import HTTP from '../http';
           this.totalValue = 0;
           //hitung ulang untuk basket counter
           this.$store.dispatch('authentication/reSetCountBasket',this.baskets.length);
+          //tambahkan total order ke toolbar
+          this.$store.dispatch('authentication/addCountOrders',data.addOrder);
         });
       }
       

@@ -6,12 +6,25 @@ const Basket = use('App/Models/Basket');
 const Database = use('Database');
 
 class OrderController {
+    async countOrders({auth, response}){
+        const user = await auth.getUser();
+        const data = await Order.query()
+                .where('user_id',user.id)
+                .where('deleted_at',null)
+                .whereIn('status_id',[1,2,3])//untuk sementara 123 dulu
+                .count();
+        
+        const count =  data[0]['count(*)'];
+        return response.status(200).json({count_orders:count});    
+    }
+
     async createFromBasket({auth,request,response}){
         const user = await auth.getUser();
         let arr = request.all();
 
         let store_id = 0;
         const arr_store = [];
+        let totalOrder = 0;
         for(let i in arr){
             let header = arr[i];
             
@@ -27,6 +40,7 @@ class OrderController {
                     "order_id" : order.id
                 });
                 store_id = header.store_id;   
+                totalOrder ++;
             }
         }
 
@@ -68,10 +82,14 @@ class OrderController {
 
             order.sub_total = arr_store[i].amount;
             order.uniq_payment = uniq;
+            order.status_id = 1;//1 adalah pertam order di buat
             order.save();
         }
 
-        return response.status(201).json({message:"pesanan berhasil dibuat"});
+        return response.status(201).json({
+            addOrder:totalOrder,
+            message:"pesanan berhasil dibuat"
+        });
     }
 
     async index({auth,request,response}){
@@ -94,6 +112,7 @@ class OrderController {
                     .leftJoin('provinces','regencies.province_id','provinces.provincy_id')
                     .where('orders.user_id',user.id)
                     .where('orders.status_id',status)
+                    .where('orders.deleted_at',null)
                     .fetch();
                     // .paginate(page, limit);
 
@@ -105,6 +124,7 @@ class OrderController {
                     ])
                     .join('users','orders.store_id','users.id')
                     .where('orders.user_id',user.id)
+                    .where('orders.deleted_at',null)
                     .whereIn('orders.status_id',[1,2,3])
                     .groupBy('status_id')
                     .get();
@@ -127,6 +147,21 @@ class OrderController {
             .where('order_id',id)
             .where('order_details.deleted_at',null)
             .fetch();
+    }
+
+    async destroy({auth,params,response}){
+        const user = await auth.getUser();
+        const {id} = params
+
+        const order = await Order.query().where('id',id).where('user_id',user.id).where('status_id',1).first()
+
+        if(order==null) return response.status(405).json({message:"anda tidak dijinkan untuk melakukan transaksi ini"});
+        
+        const time = new Date(Date.now());
+        order.deleted_at = time;
+        order.save();
+        
+        return response.status(200).json({message:"hapus pesanan berhasil"});
     }
 }
 

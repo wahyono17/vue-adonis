@@ -14,8 +14,13 @@ export default {
     loginError: null,
     token: null,
     count_basket:0,
+    count_orders:0,
   },//
   actions: {
+    //lemparan dari basket confirm
+    addCountOrders({commit},valeu){
+      commit('addCountOrders',valeu)
+    },
     //lemparan dari basket view
     reSetCountBasket({commit},value){
       commit('setCountBasket',value)
@@ -28,6 +33,8 @@ export default {
       commit('setToken', null);
       commit('setLoginEmail',null);
       commit('setLoginPassword',null);
+      commit('setCountOrders',0);
+      commit('setCountBasket',0);
       router.push('/login');
     },
     register({ commit, state }) {
@@ -60,10 +67,17 @@ export default {
           console.log("login");
           commit('setToken', data.token);
           router.push('/');
+
           HTTP().get('/basket/count')
           .then(({data})=>{
             commit('setCountBasket',data.count_basket);
           })
+
+          HTTP().get('/orders/count')
+          .then(({data})=>{
+            commit('setCountOrders',data.count_orders);
+          })
+
         })
         .catch((e) => {
           if(e.response && e.response.status == 401){
@@ -78,7 +92,13 @@ export default {
       .then(({data})=>{
         commit('setCountBasket',data.count_basket);
       })
-    }
+    },
+    fetchCountOrders({commit}){
+      HTTP().get('/orders/count')
+      .then(({data})=>{
+        commit('setCountOrders',data.count_orders);
+      })
+    },
   },
   getters: {
     isLoggedIn(state) {
@@ -86,11 +106,17 @@ export default {
     },
   },
   mutations: {
-    addCountBasket(state,value){
-      state.count_basket += value;
+    setCountOrders(state,value){
+      state.count_orders = value;
+    },
+    addCountOrders(state,value){
+      state.count_orders += value;
     },
     setCountBasket(state,count_basket){
       state.count_basket = count_basket;
+    },
+    addCountBasket(state,value){
+      state.count_basket += value;
     },
     setToken(state, token) {
       state.token = token;

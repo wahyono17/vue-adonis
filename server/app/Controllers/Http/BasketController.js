@@ -24,7 +24,7 @@ class BasketController {
         const data = await user.baskets()
                 .where('make_order',null)
                 .where('deleted_at',null)
-                .count();
+                .count();        
         const count =  data[0]['count(*)'];
 
         return response.status(200).json({count_basket:count});        

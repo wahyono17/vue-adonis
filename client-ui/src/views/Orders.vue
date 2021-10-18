@@ -1,34 +1,38 @@
 <template>
-<v-container>
-    <v-sheet elevation="6">
-      <v-tabs
-        next-icon="mdi-arrow-right-bold-box-outline"
-        prev-icon="mdi-arrow-left-bold-box-outline"
-        show-arrows
+<div>
+  <v-sheet elevation="6" class="mt-2 second-bar">
+    <v-tabs
+      next-icon="mdi-arrow-right-bold-box-outline"
+      prev-icon="mdi-arrow-left-bold-box-outline"
+      show-arrows
+    >
+      <v-tabs-slider></v-tabs-slider>
+      <v-tab
+        class="non-transform"
+        v-for="tab in tabs"
+        :key="tab.id"
+        @click="getByStatus(tab.id)"
       >
-        <v-tabs-slider></v-tabs-slider>
-        <v-tab
-          class="non-transform"
-          v-for="tab in tabs"
-          :key="tab.id"
-          @click="getByStatus(tab.id)"
-        >
-          {{ tab.name }} <span><v-chip>{{tab.count}}</v-chip></span>
-        </v-tab>
-      </v-tabs>
-    </v-sheet>
+        {{ tab.name }} <span><v-chip>{{tab.count}}</v-chip></span>
+      </v-tab>
+    </v-tabs>
+  </v-sheet>
 
-    <div style="margin-top:20px">
+<v-container>
+  <div style="margin-top:65px">
     <v-row v-for="order in orders" :key="order.id">
       <v-col>
         <v-card
         >
         <div>
           <div class="float-right">
-            <v-chip class="ml-0 mr-2 mt-2 black--text"
+            <v-icon v-if="order.status_id==1" @click="remove(order)" color="#4042b3">delete</v-icon>
+            <v-chip class="ml-0 mr-2 mt-2"
+            :color="order.status_id===1?'#ba11ed':'#42c5f5'"
             label
+            text-color="white"
             >
-                <span class="">Belum dibayar</span>
+              <span class="">{{order.order_status}}</span>
             </v-chip>
           </div>
         </div>
@@ -56,7 +60,7 @@
           </v-row>
           <div>
             <div class="d-flex flex-row-reverse">
-              <router-link :to="{name:'accounts'}">
+              <router-link :to="{name:'accounts'}" v-if="order.status_id==1">
                 <v-btn class="primary mr-2 mb-2">Metode pembayaran</v-btn>
               </router-link>
               <router-link :to="{ name: 'order', params: { id: order.id }}">
@@ -69,6 +73,7 @@
     </v-row>
   </div>  
 </v-container>
+</div>
 </template>
 
 <script>
@@ -91,6 +96,24 @@ export default {
       })
     },
     methods:{
+      remove(order){
+        HTTP().delete('/order/' + order.id)
+        .then(({data})=>{
+          //remove order array
+          this.orders.splice(this.orders.indexOf(order),1);
+          //tampilkan pesan di snackbar
+          this.$emit('showMessage',data.message,true);
+          //kurangi jumlah order di toolbar
+          this.$store.dispatch('authentication/addCountOrders',-1);
+          //kurangi di vtabs
+          this.tabs.forEach(element=>{
+            if(element.id==order.status_id){
+              element.count -= 1
+            }
+          });
+
+        })
+      },
       moment: function (date) {
         return moment(date).format('Do MMMM YY');
       },
@@ -102,7 +125,7 @@ export default {
         // console.log(id)
         HTTP().get('/orders'+'?status='+id)
         .then(({data})=>{
-          console.log(data)
+          // console.log(data)
           this.orders = data.data
         })
       }
@@ -112,5 +135,10 @@ export default {
 </script>
 
 <style lang="scss">
+  .second-bar{
+    position:fixed;
+    z-index:200;
+    width: 100%;
+  }
   
 </style>
