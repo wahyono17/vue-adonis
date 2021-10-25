@@ -14,29 +14,65 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-items>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn color="green" v-if="isLoggedIn" to="/profile"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon class="mr-2">account_circle</v-icon>
+            </v-btn>
+          </template>
+          <span>Profile</span>
+        </v-tooltip>  
 
-        <v-btn color="green" to="/profile">
-          <v-icon class="mr-2">account_circle</v-icon>
-        </v-btn>
-        <v-btn color="green" to="/orders">
-          <v-icon class="mr-2">shopping_bag</v-icon>  
-          <p>{{count_orders}}</p> 
-        </v-btn>
-        <v-btn color="green" to="/basket">
-          <v-icon class="mr-2">shopping_basket</v-icon>
-          <p>{{count_basket}}</p> 
-        </v-btn>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn color="green" v-if="isLoggedIn" to="/orders/ready"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon class="mr-2">local_shipping</v-icon>  
+              <p>2</p> 
+            </v-btn>
+            </template>
+          <span>Siap diambil</span>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn color="green" v-if="isLoggedIn" to="/orders"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon class="mr-2">shopping_bag</v-icon>  
+              <p>{{count_orders}}</p> 
+            </v-btn>
+            </template>
+          <span>Pesanan</span>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn color="green" v-if="isLoggedIn" to="/basket" class="non-transform"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon class="mr-2">shopping_cart</v-icon>
+              <p>{{count_basket}}</p> 
+            </v-btn>
+          </template>
+          <span>Keranjang</span>
+        </v-tooltip>
         <v-btn color="green" v-if="!isLoggedIn" to="/register">
           <v-icon class="mr-2">account_box</v-icon>
           Register
         </v-btn>
-
         <v-btn color="green" v-if="!isLoggedIn" to="/login">
           <v-icon class="mr-2">fingerprint</v-icon>
           Login
         </v-btn>
-
-        <v-btn color="green" v-if="isLoggedIn" @click="logout">
+        <v-btn color="green" v-if="isLoggedIn" @click="logout" class="non-transform">
           <v-icon class="mr-2">exit_to_app</v-icon>
           Logout
         </v-btn>
@@ -89,6 +125,9 @@ export default {
 
 }
 </script>
+<style lang="scss">
+ 
+</style>
 
 
 

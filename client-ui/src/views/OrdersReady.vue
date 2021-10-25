@@ -1,25 +1,7 @@
 <template>
 <div>
-  <v-sheet elevation="6" class="mt-2 second-bar">
-    <v-tabs
-      next-icon="mdi-arrow-right-bold-box-outline"
-      prev-icon="mdi-arrow-left-bold-box-outline"
-      show-arrows
-    >
-      <v-tabs-slider></v-tabs-slider>
-      <v-tab
-        class="non-transform"
-        v-for="tab in tabs"
-        :key="tab.id"
-        @click="getByStatus(tab.id)"
-      >
-        {{ tab.name }} <span><v-chip>{{tab.count}}</v-chip></span>
-      </v-tab>
-    </v-tabs>
-  </v-sheet>
-
 <v-container>
-  <div style="margin-top:65px">
+  <div style="margin-top:15px">
     <v-row v-for="order in orders" :key="order.id">
       <v-col>
         <v-card
@@ -88,20 +70,12 @@ export default {
         tabs:[],
       }
     },
-    mounted() {
-      //supaya yang di tampilkan adalah vtab yang ada valuenya,
-      //jika selalu status_id 1 jika kosong maka tdk akan keluar data 
-      HTTP().get('/orders/orderstatus/group')
+    mounted(){
+      HTTP().get('/orders'+'?status=4')
       .then(({data})=>{
-        if(data.status_id!=null){
-          HTTP().get('/orders'+'?status='+data.status_id)
-          .then(({data})=>{
-            this.orders = data.data
-            this.tabs = data.tabs
-          })
-        }
+        this.orders = data.data
+        this.tabs = data.tabs
       })
-      
     },
     methods:{
       remove(order){
@@ -128,14 +102,6 @@ export default {
       formatPrice(value) {
         let val = (value/1).toFixed(0).replace('.', ',')
         return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-      },
-      getByStatus(id){
-        // console.log(id)
-        HTTP().get('/orders'+'?status='+id)
-        .then(({data})=>{
-          // console.log(data)
-          this.orders = data.data
-        })
       }
     }
 

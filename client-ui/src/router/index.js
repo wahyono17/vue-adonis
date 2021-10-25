@@ -13,6 +13,7 @@ import Profile from '../views/Profile.vue'
 import ListTest from '../views/ListTest'
 import Basket from '../views/Basket.vue'
 import Orders from '../views/Orders.vue'
+import OrdersReady from '../views/OrdersReady.vue'
 import Order from '../views/Order.vue'
 import Accounts from '../views/Accounts.vue'
 
@@ -38,6 +39,11 @@ const routes = [
     path: '/orders',
     name: 'orders',
     component: Orders
+  },
+  {
+    path: '/orders/ready',
+    name: 'orders/ready',
+    component: OrdersReady
   },
   {
     path: '/order/:id',

@@ -31,6 +31,7 @@ Route.group(() => {
   Route.delete('basket/:id','BasketController.destroy').middleware('auth');
 
   Route.get('orders/count','OrderController.countOrders').middleware('auth');
+  Route.get('orders/orderstatus/group','OrderController.groupOrder').middleware('auth');
   Route.post('order','OrderController.createFromBasket').middleware('auth');
   Route.get('orders','OrderController.index').middleware('auth');
   Route.get('order/:id','OrderController.detail').middleware('auth');

@@ -92,6 +92,18 @@ class OrderController {
         });
     }
 
+    async groupOrder({auth}){
+        const user = await auth.getUser();
+
+        return await Order.query()
+                .select(['status_id'])
+                .where('orders.user_id',user.id)
+                .where('orders.deleted_at',null)
+                .groupBy('status_id')
+                .orderBy('status_id')
+                .first();
+    }
+
     async index({auth,request,response}){
         const user = await auth.getUser();
         const status = request.input('status',1);
