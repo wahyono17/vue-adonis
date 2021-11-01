@@ -2,13 +2,15 @@
 <div>
 <v-container>
   <div style="margin-top:15px">
+    <div v-if="dialog">
+    <finish-order :order="this.order" @showMessage="showMessage" @closeDialog="closeDialog"></finish-order>
+    </div>
     <v-row v-for="order in orders" :key="order.id">
       <v-col>
         <v-card
         >
         <div>
           <div class="float-right">
-            <v-icon v-if="order.status_id==1" @click="remove(order)" color="#4042b3">delete</v-icon>
             <v-chip class="ml-0 mr-2 mt-2"
             :color="order.status_id===1?'#ba11ed':'#42c5f5'"
             label
@@ -42,9 +44,9 @@
           </v-row>
           <div>
             <div class="d-flex flex-row-reverse">
-              <router-link :to="{name:'accounts'}" v-if="order.status_id==1">
-                <v-btn class="primary mr-2 mb-2">Metode pembayaran</v-btn>
-              </router-link>
+              <v-btn color="#f5b8d6" class="mr-2 mb-2" @click="finisCofirmation(order)"
+              >Konfirmasi Terima Barang</v-btn>
+
               <router-link :to="{ name: 'order', params: { id: order.id }}">
                 <v-btn class="mr-2 mb-2">Detail</v-btn>
               </router-link>  
@@ -61,49 +63,51 @@
 <script>
 import HTTP from '../http';
 import moment from 'moment';
+import FinishOrder from '../components/FinishOrder.vue';
 moment.locale('id');
 
 export default {
-    data () {
-      return {
-        orders:[],
-        tabs:[],
-      }
-    },
-    mounted(){
-      HTTP().get('/orders'+'?status=4')
-      .then(({data})=>{
-        this.orders = data.data
-        this.tabs = data.tabs
-      })
-    },
-    methods:{
-      remove(order){
-        HTTP().delete('/order/' + order.id)
-        .then(({data})=>{
-          //remove order array
-          this.orders.splice(this.orders.indexOf(order),1);
-          //tampilkan pesan di snackbar
-          this.$emit('showMessage',data.message,true);
-          //kurangi jumlah order di toolbar
-          this.$store.dispatch('authentication/addCountOrders',-1);
-          //kurangi di vtabs
-          this.tabs.forEach(element=>{
-            if(element.id==order.status_id){
-              element.count -= 1
-            }
-          });
-
-        })
-      },
-      moment: function (date) {
-        return moment(date).format('Do MMMM YY');
-      },
-      formatPrice(value) {
-        let val = (value/1).toFixed(0).replace('.', ',')
-        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-      }
+  components: { FinishOrder },
+  data () {
+    return {
+      orders:[],
+      order:{},
+      tabs:[],
+      dialog:false,
     }
+  },
+  mounted(){
+    HTTP().get('/orders'+'?status=4')
+    .then(({data})=>{
+      this.orders = data.data
+      this.tabs = data.tabs
+    })
+  },
+  methods:{
+    moment: function (date) {
+      return moment(date).format('Do MMMM YY');
+    },
+    formatPrice(value) {
+      let val = (value/1).toFixed(0).replace('.', ',')
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    },
+    showMessage(message,bolStatus,order){
+      this.$emit('showMessage',message,bolStatus);
+
+      //hapus index di frontend
+      this.orders.splice(this.orders.indexOf(order),1)
+
+      //kurangi jumlah di toolbar
+      this.$store.dispatch('authentication/addFinishOrder',-1);
+    },
+    closeDialog(value){
+      this.dialog=value;
+    },
+    finisCofirmation(value){
+      this.order=value;
+      this.dialog=true;
+    }
+  }
 
 }
 </script>

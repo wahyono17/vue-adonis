@@ -33,7 +33,7 @@
               v-on="on"
             >
               <v-icon class="mr-2">local_shipping</v-icon>  
-              <p>2</p> 
+              <p>{{count_ready}}</p> 
             </v-btn>
             </template>
           <span>Siap diambil</span>
@@ -105,6 +105,7 @@ export default {
   mounted(){
     this.fetchCountBasket();//untuk hitung jumlah basket
     this.fetchCountOrders();
+    this.fetchCountReady();
   },
   computed:{
     ...mapGetters('authentication', [
@@ -112,7 +113,8 @@ export default {
     ]),
     ...mapState('authentication',[
       'count_basket',
-      'count_orders'
+      'count_orders',
+      'count_ready'
     ]),   
   },
   methods:{
@@ -120,6 +122,7 @@ export default {
       'logout',
       'fetchCountBasket',
       'fetchCountOrders',
+      'fetchCountReady',
     ]),
   }
 

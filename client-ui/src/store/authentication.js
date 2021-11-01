@@ -15,6 +15,7 @@ export default {
     token: null,
     count_basket:0,
     count_orders:0,
+    count_ready:0,
   },//
   actions: {
     //lemparan dari basket confirm
@@ -28,6 +29,10 @@ export default {
     //leparan dari basket component
     addCountBasket({commit},value){
       commit('addCountBasket',value);
+    },
+    //lemparan dari OrderReady
+    addFinishOrder({commit},value){
+      commit('addFinishOrder',value);
     },
     logout({ commit }) {
       commit('setToken', null);
@@ -99,6 +104,12 @@ export default {
         commit('setCountOrders',data.count_orders);
       })
     },
+    fetchCountReady({commit}){
+      HTTP().get('/orders/ready')
+      .then(({data})=>{
+        commit('setCountReady',data.count_orders);
+      })
+    },
   },
   getters: {
     isLoggedIn(state) {
@@ -106,6 +117,9 @@ export default {
     },
   },
   mutations: {
+    setCountReady(state,value){
+      state.count_ready = value;
+    },
     setCountOrders(state,value){
       state.count_orders = value;
     },
@@ -117,6 +131,9 @@ export default {
     },
     addCountBasket(state,value){
       state.count_basket += value;
+    },
+    addFinishOrder(state,value){
+      state.count_ready += value;
     },
     setToken(state, token) {
       state.token = token;

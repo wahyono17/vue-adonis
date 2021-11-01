@@ -108,8 +108,8 @@ export default {
         closeDialog(value){
             this.dialog=value;
         },
-        showMessage(message,bolSatatus){
-            this.$emit('showMessage',message,bolSatatus);
+        showMessage(message,bolStatus){
+            this.$emit('showMessage',message,bolStatus);
         },
         formatPrice(value) {
             let val = (value/1).toFixed(0).replace('.', ',')

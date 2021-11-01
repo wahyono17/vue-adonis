@@ -6,12 +6,41 @@ const Basket = use('App/Models/Basket');
 const Database = use('Database');
 
 class OrderController {
+    async changeStatus({auth,request,response}){
+        const user = await auth.getUser();
+        const {id,next_status} = request.all();
+
+        //cari berdasarkan id
+        const order = await Order.query()
+                .where('user_id',user.id)
+                .where('deleted_at',null)
+                .where('id',id)
+                .first();
+
+        order.status_id = next_status
+        order.save()
+        
+        return response.status(200).json({message:"Berhasil"});
+    }
+
     async countOrders({auth, response}){
         const user = await auth.getUser();
         const data = await Order.query()
                 .where('user_id',user.id)
                 .where('deleted_at',null)
                 .whereIn('status_id',[1,2,3])//untuk sementara 123 dulu
+                .count();
+        
+        const count =  data[0]['count(*)'];
+        return response.status(200).json({count_orders:count});    
+    }
+
+    async countReady({auth, response}){
+        const user = await auth.getUser();
+        const data = await Order.query()
+                .where('user_id',user.id)
+                .where('deleted_at',null)
+                .where('status_id',4)//untuk sementara 123 dulu
                 .count();
         
         const count =  data[0]['count(*)'];
