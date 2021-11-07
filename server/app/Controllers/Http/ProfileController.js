@@ -9,7 +9,9 @@ class ProfileController {
         const user = await auth.getUser();
         return await Profile.query()
             .select([
-                'profiles.*','users.username'
+                'profiles.*'
+                ,Database.raw('CASE WHEN as_id = 1 then "Pembeli" ELSE "Penjual" END AS as_name')
+                ,'users.username'
                 ,'districts.name as district_name'
                 ,'regencies.regency_id','regencies.name as regency_name'
                 ,'provinces.provincy_id','provinces.name as provice_name'
@@ -22,12 +24,12 @@ class ProfileController {
     }
 
     async create({auth, request, response}){
-        
-        const {username,mobile,district_id,address} = request.all();
-        
+        const {username,mobile,as_id,district_id,address} = request.all();
+
         const rules = {
             username:'required',
             mobile: 'required|number',
+            as_id: 'required|number',
             district_id: 'required',
         }
 
@@ -46,19 +48,21 @@ class ProfileController {
         const profile = await Profile.query().where('user_id',user.id).first();
         if(profile == null){
             const newProfile = new Profile();
-            
+
             newProfile.user_id=user.id
             newProfile.mobile=mobile
             newProfile.district_id=district_id
             newProfile.address=address
-            
+            newProfile.as_id=as_id
+
             newProfile.save()
         }else{
             profile.user_id=user.id
             profile.mobile=mobile
             profile.district_id=district_id
             profile.address=address
-            
+            profile.as_id=as_id
+
             profile.save()
         }
 

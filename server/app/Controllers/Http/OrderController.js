@@ -3,6 +3,7 @@
 const Order = use('App/Models/Order');
 const OrderDetail = use('App/Models/OrderDetail');
 const Basket = use('App/Models/Basket');
+const Profile = use('App/Models/Profile');
 const Database = use('Database');
 
 class OrderController {
@@ -19,20 +20,30 @@ class OrderController {
 
         order.status_id = next_status
         order.save()
-        
+
         return response.status(200).json({message:"Berhasil"});
     }
 
     async countOrders({auth, response}){
         const user = await auth.getUser();
+
+        //cek ke table profile
+        const profile = await await Profile.query()
+                .where('user_id',user.id)
+                .first()
+        let arr_status = [];
+        if(profile!=null && profile.as_id==2){
+            arr_status = [1,2,3];//dibuat,dibayar,konfirmasi
+        }else arr_status = [2,4];//dibayar,siap diambil
+
         const data = await Order.query()
                 .where('user_id',user.id)
                 .where('deleted_at',null)
-                .whereIn('status_id',[1,2,3])//untuk sementara 123 dulu
+                .whereIn('status_id',arr_status)
                 .count();
-        
+
         const count =  data[0]['count(*)'];
-        return response.status(200).json({count_orders:count});    
+        return response.status(200).json({count_orders:count});
     }
 
     async countReady({auth, response}){
@@ -42,9 +53,9 @@ class OrderController {
                 .where('deleted_at',null)
                 .where('status_id',4)//untuk sementara 123 dulu
                 .count();
-        
+
         const count =  data[0]['count(*)'];
-        return response.status(200).json({count_orders:count});    
+        return response.status(200).json({count_orders:count});
     }
 
     async createFromBasket({auth,request,response}){
@@ -56,7 +67,7 @@ class OrderController {
         let totalOrder = 0;
         for(let i in arr){
             let header = arr[i];
-            
+
             //jika store id tdk sama dengan yg ada di looping maka buat order baru
             if(store_id != header.store_id){
                 const order = await Order.create({
@@ -68,13 +79,13 @@ class OrderController {
                     "store_id" : header.store_id,
                     "order_id" : order.id
                 });
-                store_id = header.store_id;   
+                store_id = header.store_id;
                 totalOrder ++;
             }
         }
 
         //buat order detailnya
-        for(let a in arr_store){ 
+        for(let a in arr_store){
             let amount = 0;
             for(let b in arr){
                 if(arr_store[a].store_id == arr[b].store_id){
@@ -84,7 +95,7 @@ class OrderController {
                       qty : arr[b].qty,
                       patungan_price : arr[b].patungan_price,
                       unit : arr[b].unit,
-                      amount : arr[b].total  
+                      amount : arr[b].total
                     });
 
                     //update basket
@@ -95,10 +106,10 @@ class OrderController {
                     amount += order_detail.amount;
                 }
             }
-            
+
             //masukan nilai total amount
             arr_store[a].amount = amount;
-        }  
+        }
 
         // update ke sales header
         for(let i in arr_store){
@@ -133,11 +144,8 @@ class OrderController {
                 .first();
     }
 
-    async index({auth,request,response}){
-        const user = await auth.getUser();
-        const status = request.input('status',1);
-        // const page = request.input('page', 1);
-        // const limit = 10;
+    async indexForBuyer(request,user){
+        const status = request.input('status',1);//1 dibuat
 
         const result =  await Order.query()
                     .select(['orders.*','users.username as store_name'
@@ -158,22 +166,77 @@ class OrderController {
                     // .paginate(page, limit);
 
         //hitung subtotalnya
-        const subtotal = await Order.query()            
+        const subtotal = await Order.query()
                     .select(['status_id as id'
-                    ,Database.raw('CASE WHEN status_id = 1 THEN "Belum dibayar" WHEN status_id = 2 THEN "Dibayar" WHEN status_id = 3 THEN "Konfirmasi" END as name')
+                    ,Database.raw('CASE WHEN status_id = 1 THEN "Belum dibayar" WHEN status_id = 2 THEN "Dibayar" WHEN status_id = 3 THEN "Konfirmasi" WHEN status_id = 5 THEN "Selesai" END as name')
                     ,Database.raw('count(orders.id) as count')
                     ])
                     .join('users','orders.store_id','users.id')
                     .where('orders.user_id',user.id)
                     .where('orders.deleted_at',null)
-                    .whereIn('orders.status_id',[1,2,3])
+                    .whereIn('orders.status_id',[1,2,3,5]) //5 selesai
                     .groupBy('status_id')
                     .get();
 
         return {
             data:result,
             tabs:subtotal
-        }       
+        }
+    }
+
+    async indexForSeller(request,user){
+        const status = request.input('status',2);//2 dibayar
+
+        const result =  await Order.query()
+                    .select(['orders.*','users.username as store_name'
+                    ,Database.raw('sub_total + uniq_payment as payment_amount')
+                    ,Database.raw('concat(profiles.address," ",districts.name," ",regencies.name," ",provinces.name) as address')
+                    ,'order_statuses.name as order_status'
+                    ])
+                    .join('users','orders.store_id','users.id')
+                    .leftJoin('order_statuses','orders.status_id','order_statuses.status_id')
+                    .leftJoin('profiles','orders.store_id','profiles.user_id')
+                    .leftJoin('districts','profiles.district_id','districts.district_id')
+                    .leftJoin('regencies','districts.regency_id','regencies.regency_id')
+                    .leftJoin('provinces','regencies.province_id','provinces.provincy_id')
+                    .where('orders.user_id',user.id)
+                    .where('orders.status_id',status)
+                    .where('orders.deleted_at',null)
+                    .fetch();
+                    // .paginate(page, limit);
+
+        //hitung subtotalnya
+        const subtotal = await Order.query()
+                    .select(['status_id as id'
+                    ,Database.raw('CASE WHEN status_id = 1 THEN "Belum dibayar" WHEN status_id = 2 THEN "Dibayar" WHEN status_id = 3 THEN "Konfirmasi" WHEN status_id = 5 THEN "Selesai" END as name')
+                    ,Database.raw('count(orders.id) as count')
+                    ])
+                    .join('users','orders.store_id','users.id')
+                    .where('orders.user_id',user.id)
+                    .where('orders.deleted_at',null)
+                    .whereIn('orders.status_id',[1,2,3,5]) //5 selesai
+                    .groupBy('status_id')
+                    .get();
+
+        return {
+            data:result,
+            tabs:subtotal
+        }
+    }
+
+    async index({auth,request,response}){
+        const user = await auth.getUser();
+
+        //cek ke table profile
+        const profile = await await Profile.query()
+                .where('user_id',user.id)
+                .first()
+
+        if(profile != null && profile.as_id==2){
+            return this.indexForSeller(request,user);
+        }else{
+            return this.indexForBuyer(request,user);
+        }
     }
 
     async detail({auth,params}){
@@ -197,11 +260,11 @@ class OrderController {
         const order = await Order.query().where('id',id).where('user_id',user.id).where('status_id',1).first()
 
         if(order==null) return response.status(405).json({message:"anda tidak dijinkan untuk melakukan transaksi ini"});
-        
+
         const time = new Date(Date.now());
         order.deleted_at = time;
         order.save();
-        
+
         return response.status(200).json({message:"hapus pesanan berhasil"});
     }
 }

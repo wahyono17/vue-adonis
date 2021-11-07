@@ -113,6 +113,7 @@ export default {
   },
   getters: {
     isLoggedIn(state) {
+      console.log(!!state.token);
       return !!state.token;
     },
   },

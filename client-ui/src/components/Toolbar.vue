@@ -16,7 +16,7 @@
       <v-toolbar-items>
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="green" v-if="isLoggedIn" to="/profile"
+            <v-btn color="green" to="/profile"
               v-bind="attrs"
               v-on="on"
             >
@@ -24,16 +24,16 @@
             </v-btn>
           </template>
           <span>Profile</span>
-        </v-tooltip>  
+        </v-tooltip>
 
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="green" v-if="isLoggedIn" to="/orders/ready"
+            <v-btn color="green" to="/orders/ready"
               v-bind="attrs"
               v-on="on"
             >
-              <v-icon class="mr-2">local_shipping</v-icon>  
-              <p>{{count_ready}}</p> 
+              <v-icon class="mr-2">local_shipping</v-icon>
+              <p>{{count_ready}}</p>
             </v-btn>
             </template>
           <span>Siap diambil</span>
@@ -41,12 +41,12 @@
 
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="green" v-if="isLoggedIn" to="/orders"
+            <v-btn color="green" to="/orders"
               v-bind="attrs"
               v-on="on"
             >
-              <v-icon class="mr-2">shopping_bag</v-icon>  
-              <p>{{count_orders}}</p> 
+              <v-icon class="mr-2">shopping_bag</v-icon>
+              <p>{{count_orders}}</p>
             </v-btn>
             </template>
           <span>Pesanan</span>
@@ -54,12 +54,12 @@
 
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="green" v-if="isLoggedIn" to="/basket" class="non-transform"
+            <v-btn color="green" to="/basket" class="non-transform"
               v-bind="attrs"
               v-on="on"
             >
               <v-icon class="mr-2">shopping_cart</v-icon>
-              <p>{{count_basket}}</p> 
+              <p>{{count_basket}}</p>
             </v-btn>
           </template>
           <span>Keranjang</span>
@@ -77,11 +77,11 @@
           Logout
         </v-btn>
       </v-toolbar-items>
-      
+
     </v-app-bar>
     <v-sheet
     >
-      <v-container style="height: 50px;"> 
+      <v-container style="height: 50px;">
       </v-container>
     </v-sheet>
   </v-card>
@@ -99,7 +99,7 @@ export default {
   },
   data () {
     return {
-      
+
     }
   },
   mounted(){
@@ -115,7 +115,7 @@ export default {
       'count_basket',
       'count_orders',
       'count_ready'
-    ]),   
+    ]),
   },
   methods:{
     ...mapActions('authentication', [
@@ -129,7 +129,7 @@ export default {
 }
 </script>
 <style lang="scss">
- 
+
 </style>
 
 

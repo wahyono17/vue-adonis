@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <v-text-field
-          v-model="profile.username"  
+          v-model="profile.username"
           label="Nama"
           hint="wajib di isi"
           :error="username_error"
@@ -13,6 +13,16 @@
           hint="wajib di isi"
           :error="mobile_error"
         ></v-text-field>
+
+        <v-combobox
+          v-model="profile.as_name"
+          :items="loginAs"
+          label="Sebagai"
+          outlined
+          dense
+          hint="wajib di isi"
+          @change="selectAsId(profile.as_name)"
+        ></v-combobox>
 
         <v-combobox
           v-model="profile.provice_name"
@@ -66,15 +76,21 @@ export default {
     data(){
         return {
             profile : {},
+            radios: null,
+            loginAs:[
+                {'value':1,'text':"Pembeli"},
+                {'value':2,'text':"Penjual"}
+            ],
             province:[],
             regency:[],
             district:[],
+            as_id:null,
             district_id:null,
             mobile_error:false,
             username_error:false,
             district_error:false,
         }
-    }, 
+    },
     mounted(){
         HTTP().get('/profile')
         .then(({data})=>{
@@ -95,8 +111,11 @@ export default {
         // hide_alert(){
         //     window.setInterval(() => {
         //         this.alert = false;
-        //     }, 1000)    
+        //     }, 1000)
         // },
+        selectAsId(as){
+            this.as_id=as.value
+        },
         selectRegency(province){
             HTTP().get('/regency/'+province.value)
             .then(({data})=>{
@@ -106,7 +125,7 @@ export default {
                         'text':element.name
                     })
                 });
-            })    
+            })
         },
         selectDistrict(regency){
             HTTP().get('/district/'+regency.value)
@@ -119,13 +138,14 @@ export default {
                     //simpan ke data
                     this.district_id=element.district_id;
                 });
-            })    
+            })
         },
         saveProfile(){
             HTTP().post('/profile',{
                 username:this.profile.username,
                 mobile:this.profile.mobile,
                 district_id:this.district_id != null ? this.district_id : this.profile.district_id,
+                as_id:this.as_id != null ? this.as_id : this.profile.as_id,
                 address:this.profile.address,
             })
             .then(({data})=>{
@@ -146,11 +166,11 @@ export default {
                     if(e.response.data.message.field == "username"){
                         this.username_error = true
                     }
-                    
+
                 }
             })
         }
     }
-    
+
 }
 </script>
