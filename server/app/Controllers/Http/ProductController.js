@@ -84,6 +84,7 @@ class ProductController {
 
     //ini adalah all product setelah login
     async indexAfterLogin({auth,request}){
+        // return "apakah di sini";
         const user = await auth.getUser();
         const {page} = request.all();
 
