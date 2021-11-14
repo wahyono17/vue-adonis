@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Register from '../views/Register.vue'
 import Login from '../views/Login.vue'
 // import Home from '../views/Home.vue'
+import Landing from '../views/Landing.vue'
 import Products from '../views/Products.vue'
 import Product from '../views/Product.vue'
 import Yono from '../views/Yono.vue'
@@ -72,6 +73,11 @@ const routes = [
   },
   {
     path: '/',
+    name: 'main',
+    component: Landing,
+  },
+  {
+    path: '/products',
     name: 'products',
     component: Products,
   },

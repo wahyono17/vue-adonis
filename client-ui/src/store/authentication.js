@@ -16,6 +16,7 @@ export default {
     count_basket:0,
     count_orders:0,
     count_ready:0,
+    buyer_seller:0,
   },//
   actions: {
     //lemparan dari basket confirm
@@ -71,7 +72,14 @@ export default {
         .then(({ data }) => {
           console.log("login");
           commit('setToken', data.token);
-          router.push('/');
+
+          // HTTP().get('/profile')
+          // .then(({data})=>{
+          //   commit('setBuyerSeller',data.as_id);
+          //   console.log("profile setelah login")
+          // })
+
+          router.push('/products');
 
           HTTP().get('/basket/count')
           .then(({data})=>{
@@ -91,6 +99,13 @@ export default {
             commit('setLoginError', e);
           }
         });
+    },
+    fetchProfile({commit}){
+      HTTP().get('/profile')
+      .then(({data})=>{
+        commit('setBuyerSeller',data.as_id);
+        console.log(data.as_id)
+      })
     },
     fetchCountBasket({commit}){
       HTTP().get('/basket/count')
@@ -118,6 +133,9 @@ export default {
     },
   },
   mutations: {
+    setBuyerSeller(state,value){
+      state.buyer_seller = value;
+    },
     setCountReady(state,value){
       state.count_ready = value;
     },

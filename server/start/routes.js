@@ -19,8 +19,8 @@ Route.group(() => {
   Route.post('auth/register', 'UserController.register');
   Route.post('auth/login', 'UserController.login');
 
-  Route.get('products', 'ProductController.index');
-  Route.get('products/login', 'ProductController.indexAfterLogin').middleware('auth');
+  Route.get('main', 'ProductController.index');
+  Route.get('products', 'ProductController.indexAfterLogin').middleware('auth');
   Route.get('product/:id', 'ProductController.productById').middleware('auth');
   Route.post('product', 'ProductController.create').middleware('auth');
   Route.get('product/myproduct', 'ProductController.myProductIndex').middleware('auth');

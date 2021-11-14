@@ -11,7 +11,7 @@ export default {
     //lemparan dari method dan create
     actions: {
         fetchProducts({ commit }) {
-            return HTTP().get('/products')
+            return HTTP().get('/main')
                 .then(({ data }) => {
                 commit('setProducts', data);
                 commit('resetPage');
@@ -19,7 +19,7 @@ export default {
         },
         nextPage({commit,state}){
             const newPage = state.page+1;
-            return HTTP().get('/products'+'?page='+newPage)
+            return HTTP().get('/main'+'?page='+newPage)
                 .then( ({data})=>{
                     commit('setProducts',data);
                     commit('nextPage');

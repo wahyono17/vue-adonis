@@ -17,7 +17,7 @@ class ProductSeeder {
   async run () {
     const user = await Factory
       .model('App/Models/Product')
-      .createMany(1)
+      .createMany(50)
   }
 }
 
