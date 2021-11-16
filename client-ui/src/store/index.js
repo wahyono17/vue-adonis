@@ -3,6 +3,7 @@ import createPersistedState from 'vuex-persistedstate'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import authentication from './authentication'
+import landing from './landing'
 import products from './products'
 import projects from './projects'
 
@@ -22,6 +23,7 @@ export default new Vuex.Store({
   },
   modules: {
     authentication,
+    landing,
     products,
     projects,
   },

@@ -14,9 +14,22 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-items>
-        <v-tooltip bottom>
+
+        <v-tooltip bottom v-if="isLoggedIn">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="green" to="/profile"
+            <v-btn v-if="buyer_seller==1" color="green" to="/products"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon class="mr-2">home</v-icon>
+            </v-btn>
+          </template>
+          <span>Home</span>
+        </v-tooltip>
+
+        <v-tooltip bottom v-if="isLoggedIn">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-if="buyer_seller==1 || buyer_seller==2" color="green" to="/profile"
               v-bind="attrs"
               v-on="on"
             >
@@ -26,9 +39,9 @@
           <span>Profile</span>
         </v-tooltip>
 
-        <v-tooltip bottom>
+        <v-tooltip bottom v-if="isLoggedIn">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="green" to="/orders/ready"
+            <v-btn v-if="buyer_seller == 1" color="green" to="/orders/ready"
               v-bind="attrs"
               v-on="on"
             >
@@ -39,9 +52,9 @@
           <span>Siap diambil</span>
         </v-tooltip>
 
-        <v-tooltip bottom>
+        <v-tooltip bottom v-if="isLoggedIn">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="green" to="/orders"
+            <v-btn v-if="buyer_seller==1 || buyer_seller==2" color="green" to="/orders"
               v-bind="attrs"
               v-on="on"
             >
@@ -52,9 +65,9 @@
           <span>Pesanan</span>
         </v-tooltip>
 
-        <v-tooltip bottom>
+        <v-tooltip bottom v-if="isLoggedIn">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="green" to="/basket" class="non-transform"
+            <v-btn v-if="buyer_seller==1" color="green" to="/basket" class="non-transform"
               v-bind="attrs"
               v-on="on"
             >
@@ -64,6 +77,7 @@
           </template>
           <span>Keranjang</span>
         </v-tooltip>
+
         <v-btn color="green" v-if="!isLoggedIn" to="/register">
           <v-icon class="mr-2">account_box</v-icon>
           Register
@@ -76,6 +90,7 @@
           <v-icon class="mr-2">exit_to_app</v-icon>
           Logout
         </v-btn>
+
       </v-toolbar-items>
 
     </v-app-bar>
@@ -99,13 +114,14 @@ export default {
   },
   data () {
     return {
-
+      test:0
     }
   },
   mounted(){
     this.fetchCountBasket();//untuk hitung jumlah basket
     this.fetchCountOrders();
     this.fetchCountReady();
+    this.fetchProfile();
   },
   computed:{
     ...mapGetters('authentication', [
@@ -114,7 +130,8 @@ export default {
     ...mapState('authentication',[
       'count_basket',
       'count_orders',
-      'count_ready'
+      'count_ready',
+      'buyer_seller'
     ]),
   },
   methods:{
@@ -123,6 +140,7 @@ export default {
       'fetchCountBasket',
       'fetchCountOrders',
       'fetchCountReady',
+      'fetchProfile'
     ]),
   }
 

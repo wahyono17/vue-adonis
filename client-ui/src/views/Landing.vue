@@ -90,11 +90,11 @@ export default {
         this.fetchProducts();
     },
     computed: {
-        ...mapState('products',[
+        ...mapState('landing',[
             'products',
             // 'dialog'
         ]),
-        ...mapGetters('products',[
+        ...mapGetters('landing',[
             // 'dialog'
         ]),
 
@@ -118,10 +118,10 @@ export default {
         selectProduct(product){
             console.log(product)
         },
-        ...mapMutations('products',[
+        ...mapMutations('landing',[
 
         ]),
-        ...mapActions('products',[
+        ...mapActions('landing',[
             'fetchProducts',
             'nextPage',
 

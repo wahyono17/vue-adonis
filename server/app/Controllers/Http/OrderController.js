@@ -33,7 +33,7 @@ class OrderController {
                 .where('user_id',user.id)
                 .first()
         let arr_status = [];
-        if(profile!=null && profile.as_id==2){
+        if(profile!=null && profile.as_id==1){
             arr_status = [1,2,3];//dibuat,dibayar,konfirmasi
         }else arr_status = [2,4];//dibayar,siap diambil
 
@@ -136,13 +136,32 @@ class OrderController {
     async groupOrder({auth}){
         const user = await auth.getUser();
 
-        return await Order.query()
+        //cek ke table profile
+        const profile = await await Profile.query()
+                .where('user_id',user.id)
+                .first()
+
+        if(profile != null && profile.as_id==2){
+            return await Order.query()
                 .select(['status_id'])
                 .where('orders.user_id',user.id)
                 .where('orders.deleted_at',null)
+                .whereIn('orders.status_id',[2,3,4,5])
                 .groupBy('status_id')
                 .orderBy('status_id')
                 .first();
+        }else{
+            return await Order.query()
+                .select(['status_id'])
+                .where('orders.user_id',user.id)
+                .where('orders.deleted_at',null)
+                .whereIn('orders.status_id',[1,2,3,4,5])
+                .groupBy('status_id')
+                .orderBy('status_id')
+                .first();
+        }
+
+
     }
 
     async indexForBuyer(request,user){
@@ -169,13 +188,13 @@ class OrderController {
         //hitung subtotalnya
         const subtotal = await Order.query()
                     .select(['status_id as id'
-                    ,Database.raw('CASE WHEN status_id = 1 THEN "Belum dibayar" WHEN status_id = 2 THEN "Dibayar" WHEN status_id = 3 THEN "Konfirmasi" WHEN status_id = 5 THEN "Selesai" END as name')
+                    ,Database.raw('CASE WHEN status_id = 1 THEN "Belum dibayar" WHEN status_id = 2 THEN "Dibayar" WHEN status_id = 3 THEN "Konfirmasi" WHEN status_id = 4 THEN "Siap diambil" WHEN status_id = 5 THEN "Selesai" END as name')
                     ,Database.raw('count(orders.id) as count')
                     ])
                     .join('users','orders.store_id','users.id')
                     .where('orders.user_id',user.id)
                     .where('orders.deleted_at',null)
-                    .whereIn('orders.status_id',[1,2,3,5]) //5 selesai
+                    .whereIn('orders.status_id',[1,2,3,5]) //5 selesai 4 dikecualikan
                     .groupBy('status_id')
                     .get();
 
@@ -200,7 +219,7 @@ class OrderController {
                     .leftJoin('districts','profiles.district_id','districts.district_id')
                     .leftJoin('regencies','districts.regency_id','regencies.regency_id')
                     .leftJoin('provinces','regencies.province_id','provinces.provincy_id')
-                    .where('orders.user_id',user.id)
+                    .where('orders.store_id',user.id)
                     .where('orders.status_id',status)
                     .where('orders.deleted_at',null)
                     .fetch();
@@ -209,13 +228,13 @@ class OrderController {
         //hitung subtotalnya
         const subtotal = await Order.query()
                     .select(['status_id as id'
-                    ,Database.raw('CASE WHEN status_id = 1 THEN "Belum dibayar" WHEN status_id = 2 THEN "Dibayar" WHEN status_id = 3 THEN "Konfirmasi" WHEN status_id = 5 THEN "Selesai" END as name')
+                    ,Database.raw('CASE WHEN status_id = 1 THEN "Belum dibayar" WHEN status_id = 2 THEN "Dibayar" WHEN status_id = 3 THEN "Konfirmasi" WHEN status_id = 4 THEN "Siap diambil" WHEN status_id = 5 THEN "Selesai" END as name')
                     ,Database.raw('count(orders.id) as count')
                     ])
                     .join('users','orders.store_id','users.id')
-                    .where('orders.user_id',user.id)
+                    .where('orders.store_id',user.id)
                     .where('orders.deleted_at',null)
-                    .whereIn('orders.status_id',[1,2,3,5]) //5 selesai
+                    .whereIn('orders.status_id',[2,3,4,5]) //dibayar,konfirmasi,siap diambil,selesai
                     .groupBy('status_id')
                     .get();
 
@@ -234,8 +253,10 @@ class OrderController {
                 .first()
 
         if(profile != null && profile.as_id==2){
+            // return "disini";
             return this.indexForSeller(request,user);
         }else{
+            // return "disitu";
             return this.indexForBuyer(request,user);
         }
     }
