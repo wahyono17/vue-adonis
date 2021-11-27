@@ -55,7 +55,7 @@ class ProfileController {
             newProfile.address=address
             newProfile.as_id=as_id
 
-            newProfile.save()
+            await newProfile.save()
         }else{
             profile.user_id=user.id
             profile.mobile=mobile
@@ -63,10 +63,14 @@ class ProfileController {
             profile.address=address
             profile.as_id=as_id
 
-            profile.save()
+            await profile.save()
         }
 
-        return response.status(201).json({message:"update profile berhasil"});
+        const profileReturn = await Profile.query().where('user_id',user.id).first();
+        return response.status(201).json({
+            message:"update profile berhasil",
+            as_id:profileReturn.as_id
+        });
     }
 }
 

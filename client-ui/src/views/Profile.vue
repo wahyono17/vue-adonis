@@ -152,6 +152,11 @@ export default {
                 // this.message = data.message
                 // this.alert = true
                 // this.hide_alert()
+                //refresh page untuk confer user ganti status id dari pembeli ke penjual
+                // this.$emit('reloadToolbar');
+
+                this.$store.dispatch('authentication/changeBuyerSeller',data.as_id);
+
                 //munculkan pesan sukses di snackbar
                 this.$emit('showMessage',data.message,true);
             })

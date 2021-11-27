@@ -19,6 +19,9 @@ export default {
     buyer_seller:0,
   },//
   actions: {
+    changeBuyerSeller({commit},value){
+      commit('changeBuyerSeller',value)
+    },
     //lemparan dari basket confirm
     addCountOrders({commit},valeu){
       commit('addCountOrders',valeu)
@@ -104,7 +107,7 @@ export default {
       HTTP().get('/profile')
       .then(({data})=>{
         commit('setBuyerSeller',data.as_id);
-        console.log(data.as_id)
+        // console.log(data.as_id)
       })
     },
     fetchCountBasket({commit}){
@@ -133,6 +136,11 @@ export default {
     },
   },
   mutations: {
+    changeBuyerSeller(state,value){
+      state.buyer_seller = value;
+      console.log(state.buyer_seller);
+      console.log(value);
+    },
     setBuyerSeller(state,value){
       state.buyer_seller = value;
     },

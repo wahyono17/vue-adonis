@@ -31,19 +31,24 @@ class OrderController {
         const profile = await await Profile.query()
                 .where('user_id',user.id)
                 .first()
-        let arr_status = [];
-        if(profile!=null && profile.as_id==1){
-            arr_status = [1,2,3];//dibuat,dibayar,konfirmasi
-        }else arr_status = [2,4];//dibayar,siap diambil
 
-        const data = await Order.query()
+        if(profile!=null && profile.as_id==1){
+            const data = await Order.query()
                 .where('user_id',user.id)
                 .where('deleted_at',null)
-                .whereIn('status_id',arr_status)
+                .whereIn('status_id',[1,2,3])
                 .count();
-
-        const count =  data[0]['count(*)'];
-        return response.status(200).json({count_orders:count});
+            const count =  data[0]['count(*)'];
+            return response.status(200).json({count_orders:count});
+        }else{
+            const data = await Order.query()
+                .where('store_id',user.id)
+                .where('deleted_at',null)
+                .whereIn('status_id',[2,4])
+                .count();
+            const count =  data[0]['count(*)'];
+            return response.status(200).json({count_orders:count});
+        }
     }
 
     async countReady({auth, response}){

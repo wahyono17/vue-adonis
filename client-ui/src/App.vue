@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Toolbar v-if="!mobileView" :snackbarP="snackbar"/>
+    <Toolbar v-if="!mobileView"/>
     <ToolbarMobile v-if="mobileView"/>
 
     <v-snackbar v-model="snackbar" :timeout="1500" color="purple lighten-5" top>
@@ -8,7 +8,9 @@
     </v-snackbar>
 
     <div id="app">
-      <router-view @showMessage="showMessage"/>
+      <router-view
+        @showMessage="showMessage"
+      />
     </div>
 
   </v-app>
@@ -39,7 +41,10 @@ export default {
     showMessage(message,value){
       this.messageText = message
       this.snackbar = value
-    }
+    },
+    // reloadToolbar(){
+    //   this.$forceUpdate()
+    // }
   },
   created() {
     this.handleView();

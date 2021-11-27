@@ -27,9 +27,9 @@
           <span>Home</span>
         </v-tooltip>
 
-        <v-tooltip bottom v-if="isLoggedIn">
+        <v-tooltip bottom v-if="isLoggedIn && (buyer_seller==1 || buyer_seller==2)">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn v-if="buyer_seller==1 || buyer_seller==2" color="green" to="/profile"
+            <v-btn color="green" to="/profile"
               v-bind="attrs"
               v-on="on"
             >
@@ -39,9 +39,9 @@
           <span>Profile</span>
         </v-tooltip>
 
-        <v-tooltip bottom v-if="isLoggedIn">
+        <v-tooltip bottom v-if="isLoggedIn && buyer_seller == 1">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn v-if="buyer_seller == 1" color="green" to="/orders/ready"
+            <v-btn color="green" to="/orders/ready"
               v-bind="attrs"
               v-on="on"
             >
@@ -52,9 +52,9 @@
           <span>Siap diambil</span>
         </v-tooltip>
 
-        <v-tooltip bottom v-if="isLoggedIn">
+        <v-tooltip bottom v-if="isLoggedIn && (buyer_seller==1 || buyer_seller==2)">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn v-if="buyer_seller==1 || buyer_seller==2" color="green" to="/orders"
+            <v-btn color="green" to="/orders"
               v-bind="attrs"
               v-on="on"
             >
@@ -65,9 +65,9 @@
           <span>Pesanan</span>
         </v-tooltip>
 
-        <v-tooltip bottom v-if="isLoggedIn">
+        <v-tooltip bottom v-if="isLoggedIn && buyer_seller==1">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn v-if="buyer_seller==1" color="green" to="/basket" class="non-transform"
+            <v-btn color="green" to="/basket" class="non-transform"
               v-bind="attrs"
               v-on="on"
             >
@@ -106,12 +106,6 @@
 import { mapGetters, mapActions, mapState } from 'vuex';
 
 export default {
-  props:{
-    snackbarP:{
-      type: Boolean,
-      required: true,
-    }
-  },
   data () {
     return {
       test:0

@@ -13,7 +13,7 @@ Vue.config.productionTip = false
 sync(store, router)
 
 Vue.component('Panel',Panel)
-
+// console.log("pertama kali");
 
 new Vue({
   vuetify,
