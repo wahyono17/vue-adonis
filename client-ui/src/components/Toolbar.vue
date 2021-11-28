@@ -8,7 +8,6 @@
       color="green"
       dark fixed
     >
-
       <v-toolbar-title>Title</v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -17,7 +16,7 @@
 
         <v-tooltip bottom v-if="isLoggedIn">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn v-if="buyer_seller==1" color="green" to="/products"
+            <v-btn color="green" to="/products"
               v-bind="attrs"
               v-on="on"
             >
