@@ -42,6 +42,7 @@ class UserController {
       password,
       username,
     });
+
     return this.login(...arguments);
   }
 }
